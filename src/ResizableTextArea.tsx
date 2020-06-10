@@ -5,9 +5,11 @@ import classNames from 'classnames';
 import calculateNodeHeight from './calculateNodeHeight';
 import { TextAreaProps } from '.';
 
-const RESIZE_STATUS_NONE = 0;
-const RESIZE_STATUS_RESIZING = 1;
-const RESIZE_STATUS_RESIZED = 2;
+enum RESIZE_STATUS {
+  NONE,
+  RESIZING,
+  RESIZED,
+}
 
 export interface AutoSizeType {
   minRows?: number;
@@ -17,10 +19,7 @@ export interface AutoSizeType {
 export interface TextAreaState {
   textareaStyles?: React.CSSProperties;
   /** We need add process style to disable scroll first and then add back to avoid unexpected scrollbar  */
-  resizeStatus?:
-    | typeof RESIZE_STATUS_NONE
-    | typeof RESIZE_STATUS_RESIZING
-    | typeof RESIZE_STATUS_RESIZED;
+  resizeStatus?: RESIZE_STATUS;
 }
 
 class ResizableTextArea extends React.Component<TextAreaProps, TextAreaState> {
@@ -32,7 +31,7 @@ class ResizableTextArea extends React.Component<TextAreaProps, TextAreaState> {
     super(props);
     this.state = {
       textareaStyles: {},
-      resizeStatus: RESIZE_STATUS_NONE,
+      resizeStatus: RESIZE_STATUS.NONE,
     };
   }
 
@@ -56,8 +55,7 @@ class ResizableTextArea extends React.Component<TextAreaProps, TextAreaState> {
   handleResize = (size: { width: number; height: number }) => {
     const { resizeStatus } = this.state;
     const { autoSize, onResize } = this.props;
-
-    if (resizeStatus !== RESIZE_STATUS_NONE) {
+    if (resizeStatus !== RESIZE_STATUS.NONE) {
       return;
     }
 
@@ -87,13 +85,13 @@ class ResizableTextArea extends React.Component<TextAreaProps, TextAreaState> {
       maxRows,
     );
     this.setState(
-      { textareaStyles, resizeStatus: RESIZE_STATUS_RESIZING },
+      { textareaStyles, resizeStatus: RESIZE_STATUS.RESIZING },
       () => {
         cancelAnimationFrame(this.resizeFrameId);
         this.resizeFrameId = requestAnimationFrame(() => {
-          this.setState({ resizeStatus: RESIZE_STATUS_RESIZED }, () => {
+          this.setState({ resizeStatus: RESIZE_STATUS.RESIZED }, () => {
             this.resizeFrameId = requestAnimationFrame(() => {
-              this.setState({ resizeStatus: RESIZE_STATUS_NONE });
+              this.setState({ resizeStatus: RESIZE_STATUS.NONE });
               this.fixFirefoxAutoScroll();
             });
           });
@@ -149,7 +147,7 @@ class ResizableTextArea extends React.Component<TextAreaProps, TextAreaState> {
     const style: React.CSSProperties = {
       ...this.props.style,
       ...textareaStyles,
-      ...(resizeStatus === RESIZE_STATUS_RESIZING
+      ...(resizeStatus === RESIZE_STATUS.RESIZING
         ? // React will warning when mix `overflow` & `overflowY`.
           // We need to define this separately.
           { overflowX: 'hidden', overflowY: 'hidden' }
