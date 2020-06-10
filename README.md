@@ -44,14 +44,14 @@ render(<Textarea />, mountNode);
 
 ## API
 
-| Property     | Type                        | Default     | Description                                                                                    |
-| ------------ | --------------------------- | ----------- | ---------------------------------------------------------------------------------------------- |
-| prefixCls    | string                      | rc-textarea |                                                                                                |
-| className    | string                      | ''          | additional class name of textarea                                                              |
-| style        | React.CSSProperties         | -           | style properties of textarea                                                                   |
-| autoSize     | boolean \| object           | -           | Height autosize feature, can be set to `true|false` or an object `{ minRows: 2, maxRows: 6 }`. |
-| onPressEnter | function(e)                 | -           | The callback function that is triggered when Enter key is pressed.                             |
-| onResize     | function({ width, height }) | -           | The callback function that is triggered when resize                                            |
+| Property     | Type                        | Default     | Description                                                                                     |
+| ------------ | --------------------------- | ----------- | ----------------------------------------------------------------------------------------------- |
+| prefixCls    | string                      | rc-textarea |                                                                                                 |
+| className    | string                      | ''          | additional class name of textarea                                                               |
+| style        | React.CSSProperties         | -           | style properties of textarea                                                                    |
+| autoSize     | boolean \| object           | -           | Height autosize feature, can be set to `true\|false` or an object `{ minRows: 2, maxRows: 6 }`. |
+| onPressEnter | function(e)                 | -           | The callback function that is triggered when Enter key is pressed.                              |
+| onResize     | function({ width, height }) | -           | The callback function that is triggered when resize                                             |
 
 ## Development
 
