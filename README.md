@@ -1,4 +1,4 @@
-# rc-footer 🐾
+# rc-textarea
 
 [![NPM version][npm-image]][npm-url]
 [![npm download][download-image]][download-url]
@@ -8,66 +8,50 @@
 [![DevDependencies][david-dev-image]][david-dev-url]
 [![bundle size][bundlephobia-image]][bundlephobia-url]
 
-[npm-image]: http://img.shields.io/npm/v/rc-footer.svg?style=flat-square
-[npm-url]: http://npmjs.org/package/rc-footer
-[travis-image]: https://img.shields.io/travis/com/react-component/footer.svg?style=flat-square
-[travis-url]: https://travis-ci.com/react-component/footer
-[codecov-image]: https://img.shields.io/codecov/c/github/react-component/footer/master.svg?style=flat-square
-[codecov-url]: https://codecov.io/gh/react-component/footer/branch/master
-[david-url]: https://david-dm.org/react-component/footer
-[david-image]: https://david-dm.org/react-component/footer/status.svg?style=flat-square
-[david-dev-url]: https://david-dm.org/react-component/footer?type=dev
-[david-dev-image]: https://david-dm.org/react-component/footer/dev-status.svg?style=flat-square
-[download-image]: https://img.shields.io/npm/dm/rc-footer.svg?style=flat-square
-[download-url]: https://npmjs.org/package/rc-footer
-[bundlephobia-url]: https://bundlephobia.com/result?p=rc-footer
-[bundlephobia-image]: https://badgen.net/bundlephobia/minzip/rc-footer
+[npm-image]: http://img.shields.io/npm/v/rc-textarea.svg?style=flat-square
+[npm-url]: http://npmjs.org/package/rc-textarea
+[travis-image]: https://img.shields.io/travis/com/react-component/textarea.svg?style=flat-square
+[travis-url]: https://travis-ci.com/react-component/textarea
+[codecov-image]: https://img.shields.io/codecov/c/github/react-component/textarea/master.svg?style=flat-square
+[codecov-url]: https://codecov.io/gh/react-component/textarea/branch/master
+[david-url]: https://david-dm.org/react-component/textarea
+[david-image]: https://david-dm.org/react-component/textarea/status.svg?style=flat-square
+[david-dev-url]: https://david-dm.org/react-component/textarea?type=dev
+[david-dev-image]: https://david-dm.org/react-component/textarea/dev-status.svg?style=flat-square
+[download-image]: https://img.shields.io/npm/dm/rc-textarea.svg?style=flat-square
+[download-url]: https://npmjs.org/package/rc-textarea
+[bundlephobia-url]: https://bundlephobia.com/result?p=rc-textarea
+[bundlephobia-image]: https://badgen.net/bundlephobia/minzip/rc-textarea
 
-Pretty Footer react component used in [ant.design](https://ant.design) and [antv.vision](https://antv.vision).
-
-![](https://gw.alipayobjects.com/zos/antfincdn/z4ie3X8x6u/1cb23945-ec67-45a3-b521-f8da62e12255.png)
+Pretty Textarea react component used in [ant.design](https://ant.design) and [antv.vision](https://antv.vision).
 
 ## Live Demo
 
-https://react-component.github.io/footer/
+https://react-component.github.io/textarea/
 
 ## Install
 
-[![rc-footer](https://nodei.co/npm/rc-footer.png)](https://npmjs.org/package/rc-footer)
+[![rc-textarea](https://nodei.co/npm/rc-textarea.png)](https://npmjs.org/package/rc-textarea)
 
 ## Usage
 
 ```js
-import Footer from 'rc-footer';
-import 'rc-footer/assets/index.css'; // import 'rc-footer/asssets/index.less';
+import Textarea from 'rc-textarea';
 import { render } from 'react-dom';
 
-render(
-  <Footer
-    columns={[
-      {
-        icon: (
-          <img src="https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg" />
-        ),
-        title: '语雀',
-        url: 'https://yuque.com',
-        description: '知识创作与分享工具',
-        openExternal: true,
-      },
-    ]}
-    bottom="Made with ❤️ by AFX"
-  />,
-  mountNode,
-);
+render(<Textarea />, mountNode);
 ```
 
 ## API
 
-| Property  | Type                | Default   | Description                     |
-| --------- | ------------------- | --------- | ------------------------------- |
-| prefixCls | string              | rc-footer |                                 |
-| className | string              | ''        | additional class name of footer |
-| style     | React.CSSProperties |           | style properties of footer      |
+| Property     | Type                        | Default     | Description                                                                                    |
+| ------------ | --------------------------- | ----------- | ---------------------------------------------------------------------------------------------- |
+| prefixCls    | string                      | rc-textarea |                                                                                                |
+| className    | string                      | ''          | additional class name of textarea                                                              |
+| style        | React.CSSProperties         | -           | style properties of textarea                                                                   |
+| autoSize     | boolean \| object           | -           | Height autosize feature, can be set to `true|false` or an object `{ minRows: 2, maxRows: 6 }`. |
+| onPressEnter | function(e)                 | -           | The callback function that is triggered when Enter key is pressed.                             |
+| onResize     | function({ width, height }) | -           | The callback function that is triggered when resize                                            |
 
 ## Development
 
@@ -78,4 +62,4 @@ npm start
 
 ## License
 
-rc-footer is released under the MIT license.
+rc-textarea is released under the MIT license.

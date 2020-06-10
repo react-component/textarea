@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Textarea from '../src/index';
 
 export default function App() {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState('hello\nworld');
 
   const onChange = (e) => {
     const {
@@ -16,16 +16,18 @@ export default function App() {
     console.log(`size is changed, width:${width} height:${height}`);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onPressEnter = (e) => {
-    console.log(`enter key is pressed`);
-  };
-
   return (
     <div>
+      <p>when set to true</p>
       <Textarea
-        prefixCls="custom-textarea"
-        onPressEnter={onPressEnter}
+        autoSize
+        onResize={onResize}
+        value={value}
+        onChange={onChange}
+      />
+      <p>when set to object of minRows and maxRows</p>
+      <Textarea
+        autoSize={{ minRows: 5, maxRows: 15 }}
         onResize={onResize}
         value={value}
         onChange={onChange}
