@@ -23,7 +23,7 @@
 [bundlephobia-url]: https://bundlephobia.com/result?p=rc-textarea
 [bundlephobia-image]: https://badgen.net/bundlephobia/minzip/rc-textarea
 
-Pretty Textarea react component used in [ant.design](https://ant.design) and [antv.vision](https://antv.vision).
+Pretty Textarea react component used in [ant.design](https://ant.design).
 
 ## Live Demo
 
