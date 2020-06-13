@@ -92,4 +92,6 @@ class TextArea extends React.Component<TextAreaProps, TextAreaState> {
   }
 }
 
+export { ResizableTextArea, AutoSizeType };
+
 export default TextArea;
