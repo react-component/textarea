@@ -41,6 +41,7 @@
     "coverage": "father test --coverage"
   },
   "dependencies": {
+    "@babel/runtime": "^7.10.1",
     "classnames": "^2.2.1",
     "omit.js": "^1.0.2",
     "rc-resize-observer": "^0.2.3"
