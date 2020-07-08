@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import calculateNodeHeight from './calculateNodeHeight';
 import { TextAreaProps } from '.';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 enum RESIZE_STATUS {
   NONE,
   RESIZING,
