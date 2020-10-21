@@ -212,7 +212,7 @@ describe('TextArea', () => {
           },
         },
       ]);
-
+    await Promise.resolve();
     expect(onResize).toHaveBeenCalledWith(
       expect.objectContaining({
         width: expect.any(Number),
