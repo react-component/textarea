@@ -92,7 +92,7 @@ export default function calculateNodeHeight(
   useCache = false,
   minRows: number | null = null,
   maxRows: number | null = null,
-) {
+): React.CSSProperties {
   if (!hiddenTextarea) {
     hiddenTextarea = document.createElement('textarea');
     hiddenTextarea.setAttribute('tab-index', '-1');
@@ -162,5 +162,5 @@ export default function calculateNodeHeight(
       height = Math.min(maxHeight, height);
     }
   }
-  return { height, minHeight, maxHeight, overflowY };
+  return { height, minHeight, maxHeight, overflowY, resize: 'none' };
 }
