@@ -135,6 +135,7 @@ describe('TextArea', () => {
       maxHeight: 9007199254740991,
       minHeight: 2,
       overflowY: undefined,
+      resize: 'none',
     });
     wrapper.style.boxSizing = 'content-box';
     expect(calculateNodeHeight(wrapper, 1, 1)).toEqual({
@@ -142,6 +143,7 @@ describe('TextArea', () => {
       maxHeight: 9007199254740991,
       minHeight: -4,
       overflowY: undefined,
+      resize: 'none',
     });
   });
 
