@@ -2,7 +2,7 @@
 
 [![NPM version][npm-image]][npm-url]
 [![npm download][download-image]][download-url]
-[![build status][travis-image]][travis-url]
+[![build status][github-actions-image]][github-actions-url]
 [![Codecov][codecov-image]][codecov-url]
 [![Dependencies][david-image]](david-url)
 [![DevDependencies][david-dev-image]][david-dev-url]
@@ -10,8 +10,8 @@
 
 [npm-image]: http://img.shields.io/npm/v/rc-textarea.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-textarea
-[travis-image]: https://img.shields.io/travis/com/react-component/textarea.svg?style=flat-square
-[travis-url]: https://travis-ci.com/react-component/textarea
+[github-actions-image]: https://github.com/react-component/textarea/workflows/CI/badge.svg
+[github-actions-url]: https://github.com/react-component/textarea/actions
 [codecov-image]: https://img.shields.io/codecov/c/github/react-component/textarea/master.svg?style=flat-square
 [codecov-url]: https://codecov.io/gh/react-component/textarea/branch/master
 [david-url]: https://david-dm.org/react-component/textarea
