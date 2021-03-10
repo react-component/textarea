@@ -3,12 +3,14 @@ import ResizableTextArea, { AutoSizeType } from './ResizableTextArea';
 
 export type HTMLTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
+export type lineBreakKeyType = 'Enter' | 'ShiftEnter';
+
 export interface TextAreaProps extends HTMLTextareaProps {
   prefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
   autoSize?: boolean | AutoSizeType;
-  shiftEnter?: boolean;
+  lineBreakKey?: lineBreakKeyType;
   onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
   onResize?: (size: { width: number; height: number }) => void;
 }
@@ -69,8 +71,8 @@ class TextArea extends React.Component<TextAreaProps, TextAreaState> {
   };
 
   handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const { onPressEnter, onKeyDown, shiftEnter = false } = this.props;
-    if (shiftEnter && e.keyCode === 13 && !e.shiftKey) {
+    const { onPressEnter, onKeyDown, lineBreakKey = 'Enter' } = this.props;
+    if (lineBreakKey === 'ShiftEnter' && e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault();
     }
     if (e.keyCode === 13 && onPressEnter) {

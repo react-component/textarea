@@ -92,7 +92,7 @@ describe('TextArea', () => {
   it('should support shiftEnter', () => {
     const onChange = jest.fn();
     const wrapper = mount(
-      <TextArea value="111" onChange={onChange} shiftEnter />,
+      <TextArea value="111" onChange={onChange} lineBreakKey="ShiftEnter" />,
     );
     wrapper.find('textarea').simulate('keydown', { keyCode: 13 });
     expect(onChange).toHaveBeenCalledTimes(0);
