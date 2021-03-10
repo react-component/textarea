@@ -90,16 +90,15 @@ describe('TextArea', () => {
   });
 
   it('should support shiftEnter', () => {
-    const onChange = jest.fn();
-    const wrapper = mount(
-      <TextArea value="111" onChange={onChange} lineBreakKey="ShiftEnter" />,
-    );
-    wrapper.find('textarea').simulate('keydown', { keyCode: 13 });
-    expect(onChange).toHaveBeenCalledTimes(0);
+    const wrapper = mount(<TextArea value="111" newLine="ShiftEnter" />);
+    const event = { preventDefault: jest.fn() };
+    wrapper.find('textarea').simulate('keydown', { keyCode: 13, ...event });
+    expect(event.preventDefault).toHaveBeenCalledTimes(1);
+
     wrapper
       .find('textarea')
-      .simulate('keydown', { keyCode: 13, shiftKey: true });
-    expect(onChange).toHaveBeenCalledTimes(1);
+      .simulate('keydown', { keyCode: 13, shiftKey: true, ...event });
+    expect(event.preventDefault).toHaveBeenCalledTimes(1);
   });
 
   it('should support disabled', () => {

@@ -37,7 +37,7 @@ export default function App() {
         prefixCls="custom-textarea"
         onPressEnter={onPressEnter}
         onResize={onResize}
-        lineBreakKey="ShiftEnter"
+        newLine="ShiftEnter"
         value={value}
         onChange={onChange}
       />

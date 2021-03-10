@@ -136,6 +136,7 @@ class ResizableTextArea extends React.Component<TextAreaProps, TextAreaState> {
       'autoSize',
       'defaultValue',
       'onResize',
+      'newLine',
     ]);
     const cls = classNames(prefixCls, className, {
       [`${prefixCls}-disabled`]: disabled,
