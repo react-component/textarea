@@ -89,6 +89,19 @@ describe('TextArea', () => {
     expect(fakeHandlePressEnter).toHaveBeenCalledTimes(1);
   });
 
+  it('should support shiftEnter', () => {
+    const onChange = jest.fn();
+    const wrapper = mount(
+      <TextArea value="111" onChange={onChange} shiftEnter />,
+    );
+    wrapper.find('textarea').simulate('keydown', { keyCode: 13 });
+    expect(onChange).toHaveBeenCalledTimes(0);
+    wrapper
+      .find('textarea')
+      .simulate('keydown', { keyCode: 13, shiftKey: true });
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
   it('should support disabled', () => {
     const wrapper = mount(<TextArea disabled />);
     expect(wrapper.render()).toMatchSnapshot();

@@ -1,15 +1,14 @@
 import * as React from 'react';
 import ResizableTextArea, { AutoSizeType } from './ResizableTextArea';
 
-export type HTMLTextareaProps = React.TextareaHTMLAttributes<
-  HTMLTextAreaElement
->;
+export type HTMLTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export interface TextAreaProps extends HTMLTextareaProps {
   prefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
   autoSize?: boolean | AutoSizeType;
+  shiftEnter?: boolean;
   onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
   onResize?: (size: { width: number; height: number }) => void;
 }
@@ -70,7 +69,10 @@ class TextArea extends React.Component<TextAreaProps, TextAreaState> {
   };
 
   handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const { onPressEnter, onKeyDown } = this.props;
+    const { onPressEnter, onKeyDown, shiftEnter = false } = this.props;
+    if (shiftEnter && e.keyCode === 13 && !e.shiftKey) {
+      e.preventDefault();
+    }
     if (e.keyCode === 13 && onPressEnter) {
       onPressEnter(e);
     }

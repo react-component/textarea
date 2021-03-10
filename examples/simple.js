@@ -10,6 +10,7 @@ export default function App() {
       target: { value: currentValue },
     } = e;
     setValue(currentValue);
+    console.log(`change to ${currentValue}`);
   };
 
   const onResize = ({ width, height }) => {
@@ -23,10 +24,20 @@ export default function App() {
 
   return (
     <div>
+      <h2>Base</h2>
       <Textarea
         prefixCls="custom-textarea"
         onPressEnter={onPressEnter}
         onResize={onResize}
+        value={value}
+        onChange={onChange}
+      />
+      <h2>Shift Enter</h2>
+      <Textarea
+        prefixCls="custom-textarea"
+        onPressEnter={onPressEnter}
+        onResize={onResize}
+        shiftEnter
         value={value}
         onChange={onChange}
       />
