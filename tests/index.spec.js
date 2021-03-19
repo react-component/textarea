@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import TextArea from '../index';
+import TextArea from '../src';
 import { focusTest, sleep } from './utils';
 import calculateNodeHeight, {
   calculateNodeStyling,
