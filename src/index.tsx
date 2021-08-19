@@ -1,9 +1,9 @@
 import * as React from 'react';
-import ResizableTextArea, { AutoSizeType } from './ResizableTextArea';
+import ResizableTextArea from './ResizableTextArea';
+import type { AutoSizeType } from './ResizableTextArea';
 
-export type HTMLTextareaProps = React.TextareaHTMLAttributes<
-  HTMLTextAreaElement
->;
+export type HTMLTextareaProps =
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export interface TextAreaProps extends HTMLTextareaProps {
   prefixCls?: string;
@@ -92,6 +92,7 @@ class TextArea extends React.Component<TextAreaProps, TextAreaState> {
   }
 }
 
-export { ResizableTextArea, AutoSizeType };
+export { ResizableTextArea };
+export type { AutoSizeType };
 
 export default TextArea;

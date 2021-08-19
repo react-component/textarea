@@ -33,6 +33,7 @@ const SIZING_STYLE = [
   'padding-right',
   'border-width',
   'box-sizing',
+  'word-break',
 ];
 
 export interface NodeType {
@@ -113,12 +114,8 @@ export default function calculateNodeHeight(
 
   // Copy all CSS properties that have an impact on the height of the content in
   // the textbox
-  const {
-    paddingSize,
-    borderSize,
-    boxSizing,
-    sizingStyle,
-  } = calculateNodeStyling(uiTextNode, useCache);
+  const { paddingSize, borderSize, boxSizing, sizingStyle } =
+    calculateNodeStyling(uiTextNode, useCache);
 
   // Need to have the overflow attribute to hide the scrollbar otherwise
   // text-lines will not calculated properly as the shadow will technically be
