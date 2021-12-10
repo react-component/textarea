@@ -12,8 +12,8 @@ describe('TextArea', () => {
   const originalGetComputedStyle = window.getComputedStyle;
   beforeAll(() => {
     Object.defineProperty(window, 'getComputedStyle', {
-      value: node => ({
-        getPropertyValue: prop => {
+      value: (node) => ({
+        getPropertyValue: (prop) => {
           if (prop === 'box-sizing') {
             return originalGetComputedStyle(node)[prop] || 'border-box';
           }
@@ -168,18 +168,16 @@ describe('TextArea', () => {
       resizeStatus: 2,
     });
     await sleep(100);
-    wrapper
-      .find('ResizeObserver')
-      .instance()
-      .onResize([
-        {
-          target: {
-            getBoundingClientRect() {
-              return {};
-            },
-          },
-        },
-      ]);
+    wrapper.find('ResizeObserver').prop('onResize')(
+      {
+        width: 100,
+        height: 100,
+        offsetWidth: 100,
+        offsetHeight: 100,
+      },
+      {},
+    );
+
     expect(resizeTextarea).not.toHaveBeenCalled();
   });
 
@@ -202,19 +200,20 @@ describe('TextArea', () => {
     const onResize = jest.fn();
     const wrapper = mount(<TextArea onResize={onResize} autoSize />);
     await sleep(100);
-    wrapper
-      .find('ResizeObserver')
-      .instance()
-      .onResize([
-        {
-          target: {
-            getBoundingClientRect() {
-              return {};
-            },
-          },
-        },
-      ]);
+
+    const internalResize = wrapper.find('ResizeObserver').prop('onResize');
+
+    internalResize(
+      {
+        width: 100,
+        height: 100,
+        offsetWidth: 100,
+        offsetHeight: 100,
+      },
+      {},
+    );
     await Promise.resolve();
+
     expect(onResize).toHaveBeenCalledWith(
       expect.objectContaining({
         width: expect.any(Number),
@@ -226,10 +225,7 @@ describe('TextArea', () => {
   it('scroll to bottom when autoSize', async () => {
     const wrapper = mount(<TextArea autoSize />, { attachTo: document.body });
     wrapper.find('textarea').simulate('focus');
-    wrapper
-      .find('textarea')
-      .getDOMNode()
-      .focus();
+    wrapper.find('textarea').getDOMNode().focus();
     const setSelectionRangeFn = jest.spyOn(
       wrapper.find('textarea').getDOMNode(),
       'setSelectionRange',
