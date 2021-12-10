@@ -12,8 +12,8 @@ describe('TextArea', () => {
   const originalGetComputedStyle = window.getComputedStyle;
   beforeAll(() => {
     Object.defineProperty(window, 'getComputedStyle', {
-      value: (node) => ({
-        getPropertyValue: (prop) => {
+      value: node => ({
+        getPropertyValue: prop => {
           if (prop === 'box-sizing') {
             return originalGetComputedStyle(node)[prop] || 'border-box';
           }
@@ -226,12 +226,15 @@ describe('TextArea', () => {
   it('scroll to bottom when autoSize', async () => {
     const wrapper = mount(<TextArea autoSize />, { attachTo: document.body });
     wrapper.find('textarea').simulate('focus');
-    wrapper.find('textarea').getDOMNode().focus();
+    wrapper
+      .find('textarea')
+      .getDOMNode()
+      .focus();
     const setSelectionRangeFn = jest.spyOn(
       wrapper.find('textarea').getDOMNode(),
       'setSelectionRange',
     );
-    wrapper.find('textarea').simulate('input', { target: { value: '\n1' } });
+    wrapper.find('textarea').simulate('change', { target: { value: '\n1' } });
     await sleep(100);
     expect(setSelectionRangeFn).toHaveBeenCalled();
     wrapper.unmount();
