@@ -168,18 +168,16 @@ describe('TextArea', () => {
       resizeStatus: 2,
     });
     await sleep(100);
-    wrapper
-      .find('ResizeObserver')
-      .instance()
-      .onResize([
-        {
-          target: {
-            getBoundingClientRect() {
-              return {};
-            },
-          },
-        },
-      ]);
+    wrapper.find('ResizeObserver').prop('onResize')(
+      {
+        width: 100,
+        height: 100,
+        offsetWidth: 100,
+        offsetHeight: 100,
+      },
+      {},
+    );
+
     expect(resizeTextarea).not.toHaveBeenCalled();
   });
 
@@ -202,19 +200,20 @@ describe('TextArea', () => {
     const onResize = jest.fn();
     const wrapper = mount(<TextArea onResize={onResize} autoSize />);
     await sleep(100);
-    wrapper
-      .find('ResizeObserver')
-      .instance()
-      .onResize([
-        {
-          target: {
-            getBoundingClientRect() {
-              return {};
-            },
-          },
-        },
-      ]);
+
+    const internalResize = wrapper.find('ResizeObserver').prop('onResize');
+
+    internalResize(
+      {
+        width: 100,
+        height: 100,
+        offsetWidth: 100,
+        offsetHeight: 100,
+      },
+      {},
+    );
     await Promise.resolve();
+
     expect(onResize).toHaveBeenCalledWith(
       expect.objectContaining({
         width: expect.any(Number),
@@ -231,7 +230,7 @@ describe('TextArea', () => {
       wrapper.find('textarea').getDOMNode(),
       'setSelectionRange',
     );
-    wrapper.find('textarea').simulate('input', { target: { value: '\n1' } });
+    wrapper.find('textarea').simulate('change', { target: { value: '\n1' } });
     await sleep(100);
     expect(setSelectionRangeFn).toHaveBeenCalled();
     wrapper.unmount();
