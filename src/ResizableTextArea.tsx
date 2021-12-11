@@ -43,8 +43,8 @@ class ResizableTextArea extends React.Component<TextAreaProps, TextAreaState> {
   };
 
   componentDidUpdate(prevProps: TextAreaProps) {
-    // Re-render with the new content then recalculate the height as required.
-    if (prevProps.value !== this.props.value) {
+    // Re-render with the new content or new autoSize property then recalculate the height as required.
+    if ((prevProps.value !== this.props.value) || (prevProps.autoSize !== this.props.autoSize)) {
       this.resizeTextarea();
     }
   }
