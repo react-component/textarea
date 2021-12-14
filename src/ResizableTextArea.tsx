@@ -3,7 +3,8 @@ import ResizeObserver from 'rc-resize-observer';
 import omit from 'rc-util/lib/omit';
 import classNames from 'classnames';
 import calculateNodeHeight from './calculateNodeHeight';
-import { TextAreaProps } from '.';
+import type { TextAreaProps } from '.';
+import shallowEqual from 'shallowequal';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 enum RESIZE_STATUS {
@@ -43,8 +44,11 @@ class ResizableTextArea extends React.Component<TextAreaProps, TextAreaState> {
   };
 
   componentDidUpdate(prevProps: TextAreaProps) {
-    // Re-render with the new content then recalculate the height as required.
-    if (prevProps.value !== this.props.value) {
+    // Re-render with the new content or new autoSize property then recalculate the height as required.
+    if (
+      prevProps.value !== this.props.value ||
+      !shallowEqual(prevProps.autoSize, this.props.autoSize)
+    ) {
       this.resizeTextarea();
     }
   }

@@ -41,7 +41,7 @@ describe('TextArea', () => {
     expect(onChange.mock.calls[0][0].target.value).toBe('222');
   });
 
-  it('should auto calculate height according to content length', async () => {
+  it('should auto calculate height according to content length and autoSize property', async () => {
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const wrapper = mount(
@@ -62,6 +62,24 @@ describe('TextArea', () => {
     wrapper.setProps({ value: '1111' });
     await sleep(0);
     expect(mockFunc).toHaveBeenCalledTimes(2);
+
+    wrapper.setProps({ autoSize: { minRows: 1, maxRows: 6 } });
+    await sleep(0);
+    expect(mockFunc).toHaveBeenCalledTimes(3);
+    wrapper.setProps({ autoSize: { minRows: 1, maxRows: 6 } });
+    await sleep(0);
+    expect(mockFunc).toHaveBeenCalledTimes(3);
+    wrapper.setProps({ autoSize: { minRows: 1, maxRows: 12 } });
+    await sleep(0);
+    expect(mockFunc).toHaveBeenCalledTimes(4);
+
+    wrapper.setProps({ autoSize: true });
+    await sleep(0);
+    expect(mockFunc).toHaveBeenCalledTimes(5);
+    wrapper.setProps({ autoSize: false });
+    await sleep(0);
+    expect(mockFunc).toHaveBeenCalledTimes(6);
+
     wrapper.update();
     expect(wrapper.find('textarea').props().style.overflow).toBeFalsy();
 
