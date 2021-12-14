@@ -66,9 +66,19 @@ describe('TextArea', () => {
     wrapper.setProps({ autoSize: { minRows: 1, maxRows: 6 } });
     await sleep(0);
     expect(mockFunc).toHaveBeenCalledTimes(3);
+    wrapper.setProps({ autoSize: { minRows: 1, maxRows: 6 } });
+    await sleep(0);
+    expect(mockFunc).toHaveBeenCalledTimes(3);
     wrapper.setProps({ autoSize: { minRows: 1, maxRows: 12 } });
     await sleep(0);
     expect(mockFunc).toHaveBeenCalledTimes(4);
+
+    wrapper.setProps({ autoSize: true });
+    await sleep(0);
+    expect(mockFunc).toHaveBeenCalledTimes(5);
+    wrapper.setProps({ autoSize: false });
+    await sleep(0);
+    expect(mockFunc).toHaveBeenCalledTimes(6);
 
     wrapper.update();
     expect(wrapper.find('textarea').props().style.overflow).toBeFalsy();
