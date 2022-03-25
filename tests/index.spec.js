@@ -199,6 +199,11 @@ describe('TextArea', () => {
     expect(resizeTextarea).not.toHaveBeenCalled();
   });
 
+  it('calculate textarea size during mount hook', async () => {
+    const wrapper = mount(<TextArea value="A" autoSize />);
+    expect(wrapper.find('textarea').prop('style')).toHaveProperty('height');
+  });
+
   it('handleKeyDown', () => {
     const onPressEnter = jest.fn();
     const onKeyDown = jest.fn();
