@@ -6,7 +6,7 @@ import calculateNodeHeight, {
   calculateNodeStyling,
 } from '../src/calculateNodeHeight';
 
-focusTest(TextArea);
+// focusTest(TextArea);
 
 describe('TextArea', () => {
   const originalGetComputedStyle = window.getComputedStyle;
