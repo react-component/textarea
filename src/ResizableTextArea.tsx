@@ -1,10 +1,10 @@
-import * as React from 'react';
+import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import omit from 'rc-util/lib/omit';
-import classNames from 'classnames';
-import calculateNodeHeight from './calculateNodeHeight';
-import type { TextAreaProps } from '.';
+import * as React from 'react';
 import shallowEqual from 'shallowequal';
+import type { TextAreaProps } from '.';
+import calculateNodeHeight from './calculateNodeHeight';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 enum RESIZE_STATUS {
@@ -109,7 +109,10 @@ class ResizableTextArea extends React.Component<TextAreaProps, TextAreaState> {
   // https://github.com/ant-design/ant-design/issues/21870
   fixFirefoxAutoScroll() {
     try {
-      if (document.activeElement === this.textArea) {
+      if (
+        window.hasOwnProperty('mozInnerScreenX') &&
+        document.activeElement === this.textArea
+      ) {
         const currentStart = this.textArea.selectionStart;
         const currentEnd = this.textArea.selectionEnd;
         this.textArea.setSelectionRange(currentStart, currentEnd);

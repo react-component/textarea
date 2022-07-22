@@ -1,10 +1,9 @@
-import React from 'react';
 import { mount } from 'enzyme';
 import TextArea from '../src';
-import { focusTest, sleep } from './utils';
 import calculateNodeHeight, {
   calculateNodeStyling,
 } from '../src/calculateNodeHeight';
+import { focusTest, sleep } from './utils';
 
 focusTest(TextArea);
 
@@ -241,6 +240,7 @@ describe('TextArea', () => {
   });
 
   it('scroll to bottom when autoSize', async () => {
+    window.mozInnerScreenX = 0;
     const wrapper = mount(<TextArea autoSize />, { attachTo: document.body });
     wrapper.find('textarea').simulate('focus');
     wrapper.find('textarea').getDOMNode().focus();
