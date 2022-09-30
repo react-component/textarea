@@ -43,7 +43,7 @@ export interface NodeType {
   boxSizing: string;
 }
 
-const computedStyleCache: { [key: string]: NodeType } = {};
+const computedStyleCache: Record<string, NodeType> = {};
 let hiddenTextarea: HTMLTextAreaElement;
 
 export function calculateNodeStyling(node: HTMLElement, useCache = false) {
@@ -88,7 +88,7 @@ export function calculateNodeStyling(node: HTMLElement, useCache = false) {
   return nodeInfo;
 }
 
-export default function calculateNodeHeight(
+export default function calculateAutoSizeStyle(
   uiTextNode: HTMLTextAreaElement,
   useCache = false,
   minRows: number | null = null,
@@ -126,8 +126,8 @@ export default function calculateNodeHeight(
   );
   hiddenTextarea.value = uiTextNode.value || uiTextNode.placeholder || '';
 
-  let minHeight = Number.MIN_SAFE_INTEGER;
-  let maxHeight = Number.MAX_SAFE_INTEGER;
+  let minHeight: number | undefined = undefined;
+  let maxHeight: number | undefined = undefined;
   let height = hiddenTextarea.scrollHeight;
   let overflowY: any;
 
@@ -159,5 +159,21 @@ export default function calculateNodeHeight(
       height = Math.min(maxHeight, height);
     }
   }
-  return { height, minHeight, maxHeight, overflowY, resize: 'none' };
+
+  const style: React.CSSProperties = {
+    height,
+    minHeight,
+    maxHeight,
+    overflowY,
+    resize: 'none',
+  };
+
+  if (minHeight) {
+    style.minHeight = minHeight;
+  }
+  if (maxHeight) {
+    style.maxHeight = maxHeight;
+  }
+
+  return style;
 }
