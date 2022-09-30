@@ -162,8 +162,6 @@ export default function calculateAutoSizeStyle(
 
   const style: React.CSSProperties = {
     height,
-    minHeight,
-    maxHeight,
     overflowY,
     resize: 'none',
   };

@@ -24,7 +24,7 @@ export interface ResizableTextAreaRef {
 const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
   (props, ref) => {
     const {
-      prefixCls,
+      prefixCls = 'rc-textarea',
       onPressEnter,
       defaultValue,
       value,
@@ -34,8 +34,12 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
       style,
       disabled,
       onChange,
+      // Test only
+      onInternalAutoSize,
       ...restProps
-    } = props;
+    } = props as TextAreaProps & {
+      onInternalAutoSize?: VoidFunction;
+    };
 
     // =============================== Value ================================
     const [mergedValue, setMergedValue] = useMergedState(defaultValue, {
@@ -68,15 +72,40 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
 
     const needAutoSize = !!autoSize;
 
+    // =============================== Scroll ===============================
+    // https://github.com/ant-design/ant-design/issues/21870
+    const fixFirefoxAutoScroll = () => {
+      try {
+        // FF has bug with jump of scroll to top. We force back here.
+        if (document.activeElement === textareaRef.current) {
+          const { selectionStart, selectionEnd, scrollTop } =
+            textareaRef.current;
+          textareaRef.current.setSelectionRange(selectionStart, selectionEnd);
+          textareaRef.current.scrollTop = scrollTop;
+        }
+      } catch (e) {
+        // Fix error in Chrome:
+        // Failed to read the 'selectionStart' property from 'HTMLInputElement'
+        // http://stackoverflow.com/q/21177489/3040605
+      }
+    };
+
     // =============================== Resize ===============================
     const [resizeState, setResizeState] = React.useState(RESIZE_STABLE);
     const [autoSizeStyle, setAutoSizeStyle] =
       React.useState<React.CSSProperties>();
 
+    const startResize = () => {
+      setResizeState(RESIZE_START);
+      if (process.env.NODE_ENV === 'test') {
+        onInternalAutoSize?.();
+      }
+    };
+
     // Change to trigger resize measure
     useLayoutEffect(() => {
       if (needAutoSize) {
-        setResizeState(RESIZE_START);
+        startResize();
       }
     }, [value, minRows, maxRows, needAutoSize]);
 
@@ -92,12 +121,17 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
         );
 
         // Safari has bug that text will keep break line on text cut when it's prev is break line.
+        const { selectionStart, selectionEnd, scrollTop } = textareaRef.current;
         const { value: tmpValue } = textareaRef.current;
         textareaRef.current.value = '';
         textareaRef.current.value = tmpValue;
+        textareaRef.current.scrollTop = scrollTop;
+        textareaRef.current.setSelectionRange(selectionStart, selectionEnd);
 
         setResizeState(RESIZE_STABLE);
         setAutoSizeStyle(textareaStyles);
+      } else {
+        fixFirefoxAutoScroll();
       }
     }, [resizeState]);
 
@@ -117,7 +151,7 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
       if (autoSize) {
         cleanRaf();
         resizeRafRef.current = raf(() => {
-          setResizeState(RESIZE_START);
+          startResize();
         });
       }
     };
@@ -125,9 +159,11 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
     React.useEffect(() => cleanRaf, []);
 
     // =============================== Render ===============================
+    const mergedAutoSizeStyle = needAutoSize ? autoSizeStyle : null;
+
     const mergedStyle = {
       ...style,
-      ...autoSizeStyle,
+      ...mergedAutoSizeStyle,
     };
 
     if (resizeState === RESIZE_START || resizeState === RESIZE_MEASURING) {

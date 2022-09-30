@@ -1,12 +1,34 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { render, act } from '@testing-library/react';
 import TextArea from '../src';
 import { focusTest, sleep } from './utils';
 import calculateNodeHeight, {
   calculateNodeStyling,
 } from '../src/calculateNodeHeight';
+import { _rs as onLibResize } from 'rc-resize-observer/lib/utils/observerUtil';
+import { _rs as onEsResize } from 'rc-resize-observer/lib/utils/observerUtil';
 
 focusTest(TextArea);
+
+async function wait() {
+  for (let i = 0; i < 20; i += 1) {
+    await act(async () => {
+      jest.runAllTimers();
+      await Promise.resolve();
+    });
+  }
+}
+
+function triggerResize(target) {
+  const originGetBoundingClientRect = target.getBoundingClientRect;
+
+  target.getBoundingClientRect = () => ({ width: 510, height: 903 });
+  onLibResize([{ target }]);
+  onEsResize([{ target }]);
+
+  target.getBoundingClientRect = originGetBoundingClientRect;
+}
 
 describe('TextArea', () => {
   const originalGetComputedStyle = window.getComputedStyle;
@@ -29,6 +51,15 @@ describe('TextArea', () => {
     });
   });
 
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
+
   it('should work correctly on controlled mode', () => {
     const onChange = jest.fn();
     const wrapper = mount(<TextArea value="111" onChange={onChange} />);
@@ -43,48 +74,56 @@ describe('TextArea', () => {
 
   it('should auto calculate height according to content length and autoSize property', async () => {
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const onInternalAutoSize = jest.fn();
 
-    const wrapper = mount(
+    const renderDemo = (value = '', autoSize = { minRows: 2, maxRows: 6 }) => (
       <TextArea
-        value=""
+        value={value}
         readOnly
-        autoSize={{ minRows: 2, maxRows: 6 }}
+        autoSize={autoSize}
         wrap="off"
-      />,
+        onInternalAutoSize={onInternalAutoSize}
+      />
     );
-    const mockFunc = jest.spyOn(
-      wrapper.instance().resizableTextArea,
-      'resizeTextarea',
-    );
-    wrapper.setProps({ value: '1111\n2222\n3333' });
-    await sleep(0);
-    expect(mockFunc).toHaveBeenCalledTimes(1);
-    wrapper.setProps({ value: '1111' });
-    await sleep(0);
-    expect(mockFunc).toHaveBeenCalledTimes(2);
 
-    wrapper.setProps({ autoSize: { minRows: 1, maxRows: 6 } });
-    await sleep(0);
-    expect(mockFunc).toHaveBeenCalledTimes(3);
-    wrapper.setProps({ autoSize: { minRows: 1, maxRows: 6 } });
-    await sleep(0);
-    expect(mockFunc).toHaveBeenCalledTimes(3);
-    wrapper.setProps({ autoSize: { minRows: 1, maxRows: 12 } });
-    await sleep(0);
-    expect(mockFunc).toHaveBeenCalledTimes(4);
+    const { container, rerender } = render(renderDemo());
 
-    wrapper.setProps({ autoSize: true });
-    await sleep(0);
-    expect(mockFunc).toHaveBeenCalledTimes(5);
-    wrapper.setProps({ autoSize: false });
-    await sleep(0);
-    expect(mockFunc).toHaveBeenCalledTimes(6);
+    await wait();
+    onInternalAutoSize.mockRestore();
 
-    wrapper.update();
-    expect(wrapper.find('textarea').props().style.overflow).toBeFalsy();
+    rerender(renderDemo('1111\n2222\n3333'));
+    await wait();
+    expect(onInternalAutoSize).toHaveBeenCalledTimes(1);
+
+    rerender(renderDemo('1111'));
+    await wait();
+    expect(onInternalAutoSize).toHaveBeenCalledTimes(2);
+
+    rerender(renderDemo('1111', { minRows: 1, maxRows: 6 }));
+    await wait();
+    expect(onInternalAutoSize).toHaveBeenCalledTimes(3);
+
+    rerender(renderDemo('1111', { minRows: 1, maxRows: 6 }));
+    await wait();
+    expect(onInternalAutoSize).toHaveBeenCalledTimes(3);
+
+    rerender(renderDemo('1111', { minRows: 1, maxRows: 12 }));
+    await wait();
+    expect(onInternalAutoSize).toHaveBeenCalledTimes(4);
+
+    rerender(renderDemo('1111', true));
+    await wait();
+    expect(onInternalAutoSize).toHaveBeenCalledTimes(5);
+
+    rerender(renderDemo('1111', false));
+    await wait();
+    expect(onInternalAutoSize).toHaveBeenCalledTimes(5);
+
+    expect(container.querySelector('textarea')).not.toHaveStyle({
+      overflowY: 'hidden',
+    });
 
     expect(errorSpy).not.toHaveBeenCalled();
-    errorSpy.mockRestore();
   });
 
   it('should support onPressEnter and onKeyDown', () => {
@@ -216,21 +255,11 @@ describe('TextArea', () => {
 
   it('should trigger onResize', async () => {
     const onResize = jest.fn();
-    const wrapper = mount(<TextArea onResize={onResize} autoSize />);
-    await sleep(100);
+    const { container } = render(<TextArea onResize={onResize} autoSize />);
+    await wait();
 
-    const internalResize = wrapper.find('ResizeObserver').prop('onResize');
-
-    internalResize(
-      {
-        width: 100,
-        height: 100,
-        offsetWidth: 100,
-        offsetHeight: 100,
-      },
-      {},
-    );
-    await Promise.resolve();
+    triggerResize(container.querySelector('textarea'));
+    await wait();
 
     expect(onResize).toHaveBeenCalledWith(
       expect.objectContaining({
