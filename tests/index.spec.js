@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render, act } from '@testing-library/react';
+import { render, act,fireEvent } from '@testing-library/react';
 import TextArea from '../src';
 import { focusTest, sleep } from './utils';
 import calculateNodeHeight, {
@@ -270,9 +270,10 @@ describe('TextArea', () => {
   });
 
   it('scroll to bottom when autoSize', async () => {
-    const wrapper = mount(<TextArea autoSize />, { attachTo: document.body });
-    wrapper.find('textarea').simulate('focus');
-    wrapper.find('textarea').getDOMNode().focus();
+    const { container } = render(<TextArea autoSize />);
+    fireEvent.focus(container.querySelector('textarea'));
+    // wrapper.find('textarea').simulate('focus');
+    // wrapper.find('textarea').getDOMNode().focus();
     const setSelectionRangeFn = jest.spyOn(
       wrapper.find('textarea').getDOMNode(),
       'setSelectionRange',

@@ -80,6 +80,11 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
         if (document.activeElement === textareaRef.current) {
           const { selectionStart, selectionEnd, scrollTop } =
             textareaRef.current;
+
+          const { value: tmpValue } = textareaRef.current;
+          textareaRef.current.value = '';
+          textareaRef.current.value = tmpValue;
+
           textareaRef.current.setSelectionRange(selectionStart, selectionEnd);
           textareaRef.current.scrollTop = scrollTop;
         }
@@ -121,12 +126,15 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
         );
 
         // Safari has bug that text will keep break line on text cut when it's prev is break line.
-        const { selectionStart, selectionEnd, scrollTop } = textareaRef.current;
-        const { value: tmpValue } = textareaRef.current;
-        textareaRef.current.value = '';
-        textareaRef.current.value = tmpValue;
-        textareaRef.current.scrollTop = scrollTop;
-        textareaRef.current.setSelectionRange(selectionStart, selectionEnd);
+        // const { selectionStart, selectionEnd, scrollTop } = textareaRef.current;
+        // const { value: tmpValue } = textareaRef.current;
+        // textareaRef.current.value = '';
+        // textareaRef.current.value = tmpValue;
+
+        // if (document.activeElement === textareaRef.current) {
+        //   textareaRef.current.scrollTop = scrollTop;
+        //   textareaRef.current.setSelectionRange(selectionStart, selectionEnd);
+        // }
 
         setResizeState(RESIZE_STABLE);
         setAutoSizeStyle(textareaStyles);
