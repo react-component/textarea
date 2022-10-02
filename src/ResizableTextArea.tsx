@@ -151,17 +151,15 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
     };
 
     const onInternalResize = (size: { width: number; height: number }) => {
-      if (resizeState !== RESIZE_STABLE) {
-        return;
-      }
+      if (resizeState === RESIZE_STABLE) {
+        onResize?.(size);
 
-      onResize?.(size);
-
-      if (autoSize) {
-        cleanRaf();
-        resizeRafRef.current = raf(() => {
-          startResize();
-        });
+        if (autoSize) {
+          cleanRaf();
+          resizeRafRef.current = raf(() => {
+            startResize();
+          });
+        }
       }
     };
 
