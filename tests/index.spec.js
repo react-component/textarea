@@ -1,9 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render, act,fireEvent } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
 import TextArea from '../src';
-import { focusTest, sleep } from './utils';
-import calculateNodeHeight, {
+import { focusTest } from './utils';
+import calculateAutoSizeStyle, {
   calculateNodeStyling,
 } from '../src/calculateNodeHeight';
 import { _rs as onLibResize } from 'rc-resize-observer/lib/utils/observerUtil';
@@ -174,68 +174,36 @@ describe('TextArea', () => {
   it('boxSizing === "border-box"', () => {
     const wrapper = document.createElement('textarea');
     wrapper.style.boxSizing = 'border-box';
-    const { height } = calculateNodeHeight(wrapper);
+    const { height } = calculateAutoSizeStyle(wrapper);
     expect(height).toBe(2);
   });
 
   it('boxSizing === "content-box"', () => {
     const wrapper = document.createElement('textarea');
     wrapper.style.boxSizing = 'content-box';
-    const { height } = calculateNodeHeight(wrapper);
+    const { height } = calculateAutoSizeStyle(wrapper);
     expect(height).toBe(-4);
   });
 
   it('minRows or maxRows is not null', () => {
     const wrapper = document.createElement('textarea');
-    expect(calculateNodeHeight(wrapper, 1, 1)).toEqual({
-      height: 2,
-      maxHeight: 9007199254740991,
-      minHeight: 2,
-      overflowY: undefined,
-      resize: 'none',
-    });
+    expect(calculateAutoSizeStyle(wrapper, 1, 1)).toEqual(
+      expect.objectContaining({
+        height: 2,
+        minHeight: 2,
+        overflowY: undefined,
+        resize: 'none',
+      }),
+    );
     wrapper.style.boxSizing = 'content-box';
-    expect(calculateNodeHeight(wrapper, 1, 1)).toEqual({
-      height: -4,
-      maxHeight: 9007199254740991,
-      minHeight: -4,
-      overflowY: undefined,
-      resize: 'none',
-    });
-  });
-
-  it('when prop value not in this.props, resizeTextarea should be called', () => {
-    const wrapper = mount(<TextArea aria-label="textarea" />);
-    const resizeTextarea = jest.spyOn(
-      wrapper.instance().resizableTextArea,
-      'resizeTextarea',
+    expect(calculateAutoSizeStyle(wrapper, 1, 1)).toEqual(
+      expect.objectContaining({
+        height: -4,
+        minHeight: -4,
+        overflowY: undefined,
+        resize: 'none',
+      }),
     );
-    wrapper.find('textarea').simulate('change', 'test');
-    expect(resizeTextarea).toHaveBeenCalled();
-  });
-
-  it('when resizeStatus is not RESIZE_STATUS.NONE, resizeTextarea should be called', async () => {
-    const wrapper = mount(<TextArea autoSize />);
-    const resizeTextarea = jest.spyOn(
-      wrapper.instance().resizableTextArea,
-      'resizeTextarea',
-    );
-    await sleep(100);
-    wrapper.setState({
-      resizeStatus: 2,
-    });
-    await sleep(100);
-    wrapper.find('ResizeObserver').prop('onResize')(
-      {
-        width: 100,
-        height: 100,
-        offsetWidth: 100,
-        offsetHeight: 100,
-      },
-      {},
-    );
-
-    expect(resizeTextarea).not.toHaveBeenCalled();
   });
 
   it('handleKeyDown', () => {
@@ -270,17 +238,22 @@ describe('TextArea', () => {
   });
 
   it('scroll to bottom when autoSize', async () => {
-    const { container } = render(<TextArea autoSize />);
-    fireEvent.focus(container.querySelector('textarea'));
-    // wrapper.find('textarea').simulate('focus');
-    // wrapper.find('textarea').getDOMNode().focus();
+    const { container, unmount } = render(<TextArea autoSize />);
+    container.querySelector('textarea').focus();
+    expect(document.activeElement).toBe(container.querySelector('textarea'));
+
     const setSelectionRangeFn = jest.spyOn(
-      wrapper.find('textarea').getDOMNode(),
+      container.querySelector('textarea'),
       'setSelectionRange',
     );
-    wrapper.find('textarea').simulate('change', { target: { value: '\n1' } });
-    await sleep(100);
+
+    fireEvent.change(container.querySelector('textarea'), {
+      target: { value: '\n1' },
+    });
+
+    await wait();
+
     expect(setSelectionRangeFn).toHaveBeenCalled();
-    wrapper.unmount();
+    unmount();
   });
 });

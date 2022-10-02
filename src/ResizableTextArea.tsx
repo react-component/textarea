@@ -126,6 +126,7 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
         );
 
         // Safari has bug that text will keep break line on text cut when it's prev is break line.
+        // ZombieJ: This not often happen. So we just skip it.
         // const { selectionStart, selectionEnd, scrollTop } = textareaRef.current;
         // const { value: tmpValue } = textareaRef.current;
         // textareaRef.current.value = '';
