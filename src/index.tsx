@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ResizableTextArea from './ResizableTextArea';
+import type { ResizableTextAreaRef } from './ResizableTextArea';
 import type { AutoSizeType } from './ResizableTextArea';
 
 export type HTMLTextareaProps =
@@ -19,7 +20,7 @@ export interface TextAreaState {
 }
 
 class TextArea extends React.Component<TextAreaProps, TextAreaState> {
-  resizableTextArea!: ResizableTextArea;
+  resizableTextArea!: ResizableTextAreaRef;
 
   constructor(props: TextAreaProps) {
     super(props);
@@ -55,15 +56,13 @@ class TextArea extends React.Component<TextAreaProps, TextAreaState> {
     this.resizableTextArea.textArea.blur();
   }
 
-  saveTextArea = (resizableTextArea: ResizableTextArea) => {
+  saveTextArea = (resizableTextArea: ResizableTextAreaRef) => {
     this.resizableTextArea = resizableTextArea;
   };
 
   handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { onChange } = this.props;
-    this.setValue(e.target.value, () => {
-      this.resizableTextArea.resizeTextarea();
-    });
+    this.setValue(e.target.value);
     if (onChange) {
       onChange(e);
     }
