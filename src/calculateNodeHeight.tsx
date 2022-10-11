@@ -13,6 +13,7 @@ const HIDDEN_TEXTAREA_STYLE = `
   z-index:-1000 !important;
   top:0 !important;
   right:0 !important;
+  pointer-events: none !important;
 `;
 
 const SIZING_STYLE = [
