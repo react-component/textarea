@@ -1,4 +1,5 @@
 // Thanks to https://github.com/andreypopp/react-textarea-autosize/
+
 /**
  * calculateNodeHeight(uiTextNode, useCache = false)
  */
@@ -12,10 +13,7 @@ const HIDDEN_TEXTAREA_STYLE = `
   position:absolute !important;
   z-index:-1000 !important;
   top:0 !important;
-  right:0 !important;
-
-  visibility:visible !important;
-  z-index: 1000!important;
+  right:0 !important
 `;
 
 const SIZING_STYLE = [
@@ -45,7 +43,7 @@ export interface NodeType {
   boxSizing: string;
 }
 
-const computedStyleCache: Record<string, NodeType> = {};
+const computedStyleCache: { [key: string]: NodeType } = {};
 let hiddenTextarea: HTMLTextAreaElement;
 
 export function calculateNodeStyling(node: HTMLElement, useCache = false) {
@@ -90,7 +88,7 @@ export function calculateNodeStyling(node: HTMLElement, useCache = false) {
   return nodeInfo;
 }
 
-export default function calculateAutoSizeStyle(
+export default function calculateNodeHeight(
   uiTextNode: HTMLTextAreaElement,
   useCache = false,
   minRows: number | null = null,
@@ -128,11 +126,10 @@ export default function calculateAutoSizeStyle(
   );
   hiddenTextarea.value = uiTextNode.value || uiTextNode.placeholder || '';
 
-  let minHeight: number | undefined = undefined;
-  let maxHeight: number | undefined = undefined;
-  let overflowY: any;
-
+  let minHeight = Number.MIN_SAFE_INTEGER;
+  let maxHeight = Number.MAX_SAFE_INTEGER;
   let height = hiddenTextarea.scrollHeight;
+  let overflowY: any;
 
   if (boxSizing === 'border-box') {
     // border-box: add border, since height = content + padding + border
@@ -162,19 +159,5 @@ export default function calculateAutoSizeStyle(
       height = Math.min(maxHeight, height);
     }
   }
-
-  const style: React.CSSProperties = {
-    height,
-    overflowY,
-    resize: 'none',
-  };
-
-  if (minHeight) {
-    style.minHeight = minHeight;
-  }
-  if (maxHeight) {
-    style.maxHeight = maxHeight;
-  }
-
-  return style;
+  return { height, minHeight, maxHeight, overflowY, resize: 'none' };
 }
