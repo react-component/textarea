@@ -81,9 +81,11 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
           const { selectionStart, selectionEnd, scrollTop } =
             textareaRef.current;
 
-          const { value: tmpValue } = textareaRef.current;
-          textareaRef.current.value = '';
-          textareaRef.current.value = tmpValue;
+          // Fix Safari bug which not rollback when break line
+          // This makes Chinese IME can't input. Do not fix this
+          // const { value: tmpValue } = textareaRef.current;
+          // textareaRef.current.value = '';
+          // textareaRef.current.value = tmpValue;
 
           textareaRef.current.setSelectionRange(selectionStart, selectionEnd);
           textareaRef.current.scrollTop = scrollTop;
