@@ -6,7 +6,7 @@ import type { AutoSizeType } from './ResizableTextArea';
 export type HTMLTextareaProps =
   React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export interface TextAreaProps extends HTMLTextareaProps {
+export interface TextAreaProps extends Omit<HTMLTextareaProps, 'onResize'> {
   prefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
