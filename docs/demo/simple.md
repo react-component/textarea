@@ -1,3 +1,10 @@
+---
+title: Simple
+order: 0
+nav:
+  title: Demo
+---
+
 ## simple
 
-<code src="../examples/simple.jsx" />
+<code src="./simple.jsx"></code>
