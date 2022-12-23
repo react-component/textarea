@@ -4,9 +4,11 @@ import { defineConfig } from 'dumi';
 const name = 'textarea';
 
 export default defineConfig({
-  title: 'rc-textarea',
-  favicon: 'https://avatars0.githubusercontent.com/u/9441414?s=200&v=4',
-  logo: 'https://avatars0.githubusercontent.com/u/9441414?s=200&v=4',
+  favicons: ['https://avatars0.githubusercontent.com/u/9441414?s=200&v=4'],
+  themeConfig: {
+    name: 'rc-textarea',
+    logo: 'https://avatars0.githubusercontent.com/u/9441414?s=200&v=4',
+  },
   outputPath: '.doc',
   exportStatic: {},
   base: `/${name}/`,

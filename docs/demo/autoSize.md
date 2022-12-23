@@ -1,3 +1,10 @@
+---
+title: Auto Size
+order: 1
+nav:
+  title: Demo
+---
+
 ## autoSize
 
-<code src="../examples/autoSize.jsx" />
+<code src="./autoSize.jsx"></code>
