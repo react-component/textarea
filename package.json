@@ -41,7 +41,7 @@
     "pretty-quick": "pretty-quick",
     "test": "rc-test",
     "coverage": "rc-test --coverage",
-    "prepare": "dumi setup"
+    "postinstall": "dumi setup"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.1",
