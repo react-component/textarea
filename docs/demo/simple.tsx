@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
+import type { TextAreaProps } from 'rc-textarea';
 import Textarea from 'rc-textarea';
 
 export default function App() {
@@ -9,10 +10,11 @@ export default function App() {
     const {
       target: { value: currentValue },
     } = e;
+    console.log(e.target.value);
     setValue(currentValue);
   };
 
-  const onResize = ({ width, height }) => {
+  const onResize: TextAreaProps['onResize'] = ({ width, height }) => {
     console.log(`size is changed, width:${width} height:${height}`);
   };
 

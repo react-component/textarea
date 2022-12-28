@@ -1,4 +1,6 @@
 // Thanks to https://github.com/andreypopp/react-textarea-autosize/
+import type React from 'react';
+
 /**
  * calculateNodeHeight(uiTextNode, useCache = false)
  */

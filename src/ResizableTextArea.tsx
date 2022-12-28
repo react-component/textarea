@@ -6,20 +6,11 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import classNames from 'classnames';
 import calculateAutoSizeStyle from './calculateNodeHeight';
 import type { TextAreaProps } from '.';
+import { ResizableTextAreaRef } from './interface';
 
 const RESIZE_START = 0;
 const RESIZE_MEASURING = 1;
 const RESIZE_STABLE = 2;
-
-export interface AutoSizeType {
-  minRows?: number;
-  maxRows?: number;
-}
-
-// To compatible with origin usage. We have to wrap this
-export interface ResizableTextAreaRef {
-  textArea: HTMLTextAreaElement;
-}
 
 const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
   (props, ref) => {

@@ -1,98 +1,55 @@
-import * as React from 'react';
 import ResizableTextArea from './ResizableTextArea';
-import type { AutoSizeType } from './ResizableTextArea';
+import type {
+  ResizableTextAreaRef,
+  TextAreaProps,
+  TextAreaRef,
+} from './interface';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import React, { useImperativeHandle, useRef } from 'react';
 
-export type HTMLTextareaProps =
-  React.TextareaHTMLAttributes<HTMLTextAreaElement>;
-
-export interface TextAreaProps extends HTMLTextareaProps {
-  prefixCls?: string;
-  className?: string;
-  style?: React.CSSProperties;
-  autoSize?: boolean | AutoSizeType;
-  onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
-  onResize?: (size: { width: number; height: number }) => void;
-}
-
-export interface TextAreaState {
-  value: any;
-}
-
-class TextArea extends React.Component<TextAreaProps, TextAreaState> {
-  resizableTextArea!: ResizableTextArea;
-
-  constructor(props: TextAreaProps) {
-    super(props);
-    const value =
-      typeof props.value === 'undefined' || props.value === null
-        ? props.defaultValue
-        : props.value;
-    this.state = {
-      value,
-    };
-  }
-
-  static getDerivedStateFromProps(nextProps: TextAreaProps) {
-    if ('value' in nextProps) {
-      return {
-        value: nextProps.value,
-      };
-    }
-    return null;
-  }
-
-  setValue(value: string, callback?: () => void) {
-    if (!('value' in this.props)) {
-      this.setState({ value }, callback);
-    }
-  }
-
-  focus = () => {
-    this.resizableTextArea.textArea.focus();
-  };
-
-  blur() {
-    this.resizableTextArea.textArea.blur();
-  }
-
-  saveTextArea = (resizableTextArea: ResizableTextArea) => {
-    this.resizableTextArea = resizableTextArea;
-  };
-
-  handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { onChange } = this.props;
-    this.setValue(e.target.value, () => {
-      this.resizableTextArea.resizeTextarea();
+const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
+  ({ defaultValue, value: customValue, onChange, ...rest }, ref) => {
+    const [value, setValue] = useMergedState(defaultValue, {
+      value: customValue,
+      defaultValue,
     });
-    if (onChange) {
-      onChange(e);
-    }
-  };
+    const resizableTextAreaRef = useRef<ResizableTextAreaRef>(null);
 
-  handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const { onPressEnter, onKeyDown } = this.props;
-    if (e.keyCode === 13 && onPressEnter) {
-      onPressEnter(e);
-    }
-    if (onKeyDown) {
-      onKeyDown(e);
-    }
-  };
+    useImperativeHandle(ref, () => ({
+      resizableTextArea: resizableTextAreaRef.current,
+      focus: () => {
+        resizableTextAreaRef.current.textArea.focus();
+      },
+      blur: () => {
+        resizableTextAreaRef.current.textArea.blur();
+      },
+    }));
 
-  render() {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setValue(e.target.value);
+      onChange?.(e);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      const { onPressEnter, onKeyDown } = rest;
+      if (e.keyCode === 13 && onPressEnter) {
+        onPressEnter(e);
+      }
+      if (onKeyDown) {
+        onKeyDown(e);
+      }
+    };
+
     return (
       <ResizableTextArea
-        {...this.props}
-        value={this.state.value}
-        onKeyDown={this.handleKeyDown}
-        onChange={this.handleChange}
-        ref={this.saveTextArea}
+        {...rest}
+        value={value}
+        onKeyDown={handleKeyDown}
+        onChange={handleChange}
+        ref={resizableTextAreaRef}
       />
     );
-  }
-}
-
-export { ResizableTextArea };
-export type { AutoSizeType };
+  },
+);
 
 export default TextArea;
