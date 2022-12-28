@@ -7,4 +7,4 @@ nav:
 
 ## simple
 
-<code src="./simple.jsx"></code>
+<code src="./simple.tsx"></code>

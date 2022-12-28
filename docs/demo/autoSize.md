@@ -7,4 +7,4 @@ nav:
 
 ## autoSize
 
-<code src="./autoSize.jsx"></code>
+<code src="./autoSize.tsx"></code>
