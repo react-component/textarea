@@ -31,6 +31,8 @@ export default function App() {
         onResize={onResize}
         value={value}
         onChange={onChange}
+        autoFocus
+        onFocus={() => console.log('focus')}
       />
     </div>
   );

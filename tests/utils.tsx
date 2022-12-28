@@ -102,8 +102,10 @@ export function focusTest(Component, { refFocus = false } = {}) {
       });
 
       it('autoFocus', () => {
+        jest.useRealTimers();
         const handleFocus = jest.fn();
         render(<Component autoFocus onFocus={handleFocus} />);
+        jest.runAllTimers();
         expect(handleFocus).toHaveBeenCalled();
       });
     }
