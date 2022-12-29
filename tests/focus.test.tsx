@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
-import type { TextAreaRef } from 'rc-textarea';
+import type { TextAreaRef } from '../src';
 import TextArea from '../src';
 
 describe('focus and blur', () => {
