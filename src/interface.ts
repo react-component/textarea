@@ -1,3 +1,4 @@
+import type { BaseInputProps, ShowCountProps } from 'rc-input/lib/interface';
 import type React from 'react';
 
 export interface AutoSizeType {
@@ -13,14 +14,15 @@ export interface ResizableTextAreaRef {
 export type HTMLTextareaProps =
   React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export interface TextAreaProps extends Omit<HTMLTextareaProps, 'onResize'> {
+export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize'> & {
   prefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
   autoSize?: boolean | AutoSizeType;
   onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
   onResize?: (size: { width: number; height: number }) => void;
-}
+  showCount?: boolean | ShowCountProps;
+} & Pick<BaseInputProps, 'allowClear' | 'suffix' | 'affixWrapperClassName'>;
 
 export type TextAreaRef = {
   resizableTextArea: ResizableTextAreaRef;
