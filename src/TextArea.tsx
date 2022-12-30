@@ -211,11 +211,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       return (
         <div
           hidden={rest.hidden}
-          className={classNames(
-            prefixCls,
-            `${prefixCls}-show-count`,
-            className,
-          )}
+          className={classNames(`${prefixCls}-show-count`, className)}
           style={style}
           data-count={dataCount}
         >

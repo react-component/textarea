@@ -9,7 +9,9 @@ describe('should support showCount', () => {
     );
     expect(container.querySelector('textarea')?.value).toBe('12345');
     expect(
-      container.querySelector('.rc-textarea')?.getAttribute('data-count'),
+      container
+        .querySelector('.rc-textarea-show-count')
+        ?.getAttribute('data-count'),
     ).toBe('5 / 5');
     expect(container.querySelector('.rc-textarea-data-count')?.innerHTML).toBe(
       '5 / 5',
@@ -22,7 +24,9 @@ describe('should support showCount', () => {
     );
     expect(container.querySelector('textarea')?.value).toBe('12345678');
     expect(
-      container.querySelector('.rc-textarea')?.getAttribute('data-count'),
+      container
+        .querySelector('.rc-textarea-show-count')
+        ?.getAttribute('data-count'),
     ).toBe('8 / 5');
     expect(container.querySelector('.rc-textarea-data-count')?.innerHTML).toBe(
       '8 / 5',
@@ -42,7 +46,9 @@ describe('should support showCount', () => {
     );
     expect(container.querySelector('textarea')?.value).toBe('12345');
     expect(
-      container.querySelector('.rc-textarea')?.getAttribute('data-count'),
+      container
+        .querySelector('.rc-textarea-show-count')
+        ?.getAttribute('data-count'),
     ).toBe('12345, 5, 5');
     expect(container.querySelector('.rc-textarea-data-count')?.innerHTML).toBe(
       '12345, 5, 5',
@@ -56,7 +62,9 @@ describe('should support showCount', () => {
       );
       expect(container.querySelector('textarea')?.value).toBe('👀');
       expect(
-        container.querySelector('.rc-textarea')?.getAttribute('data-count'),
+        container
+          .querySelector('.rc-textarea-show-count')
+          ?.getAttribute('data-count'),
       ).toBe('1 / 1');
       expect(
         container.querySelector('.rc-textarea-data-count')?.innerHTML,
@@ -68,7 +76,9 @@ describe('should support showCount', () => {
         <TextArea maxLength={2} showCount value="👀" />,
       );
       expect(
-        container1.querySelector('.rc-textarea')?.getAttribute('data-count'),
+        container1
+          .querySelector('.rc-textarea-show-count')
+          ?.getAttribute('data-count'),
       ).toBe('1 / 2');
       expect(
         container1.querySelector('.rc-textarea-data-count')?.innerHTML,
@@ -89,7 +99,9 @@ describe('should support showCount', () => {
       );
       expect(container.querySelector('textarea')?.value).toBe('1234😂');
       expect(
-        container.querySelector('.rc-textarea')?.getAttribute('data-count'),
+        container
+          .querySelector('.rc-textarea-show-count')
+          ?.getAttribute('data-count'),
       ).toBe('5 / 5');
       expect(
         container.querySelector('.rc-textarea-data-count')?.innerHTML,
