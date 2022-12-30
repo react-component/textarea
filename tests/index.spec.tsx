@@ -11,7 +11,7 @@ import calculateAutoSizeStyle, {
 } from '../src/calculateNodeHeight';
 
 async function wait() {
-  for (let i = 0; i < 20; i += 1) {
+  for (let i = 0; i < 100; i += 1) {
     await act(async () => {
       jest.runAllTimers();
       await Promise.resolve();
