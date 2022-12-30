@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should support allowClear should not show icon if defaultValue is undefined, null or empty string 1`] = `
+<span
+  class="rc-textarea-affix-wrapper"
+>
+  <textarea
+    class="rc-textarea"
+  />
+  <span
+    class="rc-textarea-suffix"
+  >
+    <span
+      class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;
+
+exports[`should support allowClear should not show icon if defaultValue is undefined, null or empty string 2`] = `
+<span
+  class="rc-textarea-affix-wrapper"
+>
+  <textarea
+    class="rc-textarea"
+  />
+  <span
+    class="rc-textarea-suffix"
+  >
+    <span
+      class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;
+
+exports[`should support allowClear should not show icon if defaultValue is undefined, null or empty string 3`] = `
+<span
+  class="rc-textarea-affix-wrapper"
+>
+  <textarea
+    class="rc-textarea"
+  />
+  <span
+    class="rc-textarea-suffix"
+  >
+    <span
+      class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;
+
+exports[`should support allowClear should not show icon if value is undefined, null or empty string 1`] = `
+<span
+  class="rc-textarea-affix-wrapper"
+>
+  <textarea
+    class="rc-textarea"
+  />
+  <span
+    class="rc-textarea-suffix"
+  >
+    <span
+      class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;
+
+exports[`should support allowClear should not show icon if value is undefined, null or empty string 2`] = `
+<span
+  class="rc-textarea-affix-wrapper"
+>
+  <textarea
+    class="rc-textarea"
+  />
+  <span
+    class="rc-textarea-suffix"
+  >
+    <span
+      class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;
+
+exports[`should support allowClear should not show icon if value is undefined, null or empty string 3`] = `
+<span
+  class="rc-textarea-affix-wrapper"
+>
+  <textarea
+    class="rc-textarea"
+  />
+  <span
+    class="rc-textarea-suffix"
+  >
+    <span
+      class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
+      role="button"
+      tabindex="-1"
+    >
+      ✖
+    </span>
+  </span>
+</span>
+`;

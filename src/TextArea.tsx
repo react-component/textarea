@@ -54,6 +54,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       showCount,
       className,
       style,
+      disabled,
       ...rest
     },
     ref,
@@ -175,6 +176,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         suffix={suffix}
         prefixCls={prefixCls}
         affixWrapperClassName={affixWrapperClassName}
+        disabled={disabled}
         inputElement={
           <ResizableTextArea
             {...rest}
@@ -185,6 +187,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             maxLength={maxLength}
             className={showCount ? className : ''}
             style={showCount ? { resize: style?.resize } : style}
+            disabled={disabled}
             ref={resizableTextAreaRef}
           />
         }
