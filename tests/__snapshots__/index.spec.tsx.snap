@@ -10,6 +10,5 @@ exports[`TextArea should support disabled 1`] = `
 exports[`TextArea should support maxLength 1`] = `
 <textarea
   class="rc-textarea"
-  maxlength="10"
 />
 `;
