@@ -22,7 +22,12 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize'> & {
   onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
   onResize?: (size: { width: number; height: number }) => void;
   showCount?: boolean | ShowCountProps;
-} & Pick<BaseInputProps, 'allowClear' | 'suffix' | 'affixWrapperClassName'>;
+  classes?: {
+    textarea?: string;
+    countWrapper?: string;
+    affixWrapper?: string;
+  };
+} & Pick<BaseInputProps, 'allowClear' | 'suffix'>;
 
 export type TextAreaRef = {
   resizableTextArea: ResizableTextAreaRef;
