@@ -1,12 +1,12 @@
-import * as React from 'react';
+import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import raf from 'rc-util/lib/raf';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import classNames from 'classnames';
-import calculateAutoSizeStyle from './calculateNodeHeight';
+import raf from 'rc-util/lib/raf';
+import * as React from 'react';
 import type { TextAreaProps } from '.';
-import { ResizableTextAreaRef } from './interface';
+import calculateAutoSizeStyle from './calculateNodeHeight';
+import type { ResizableTextAreaRef } from './interface';
 
 const RESIZE_START = 0;
 const RESIZE_MEASURING = 1;
@@ -15,7 +15,7 @@ const RESIZE_STABLE = 2;
 const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
   (props, ref) => {
     const {
-      prefixCls = 'rc-textarea',
+      prefixCls,
       onPressEnter,
       defaultValue,
       value,

@@ -50,7 +50,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       onCompositionEnd,
       suffix,
       prefixCls = 'rc-textarea',
-      affixWrapperClassName,
+      classes,
       showCount,
       className,
       style,
@@ -175,8 +175,10 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         handleReset={handleReset}
         suffix={suffix}
         prefixCls={prefixCls}
-        affixWrapperClassName={affixWrapperClassName}
+        affixWrapperClassName={classes?.affixWrapper}
         disabled={disabled}
+        style={style}
+        inputStyle={{ resize: style?.resize }}
         inputElement={
           <ResizableTextArea
             {...rest}
@@ -185,9 +187,13 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             onCompositionStart={onInternalCompositionStart}
             onCompositionEnd={onInternalCompositionEnd}
             maxLength={maxLength}
-            className={showCount ? className : ''}
-            style={showCount ? { resize: style?.resize } : style}
+            className={classNames(
+              showCount ? '' : className,
+              classes?.textarea,
+            )}
+            style={!showCount && style}
             disabled={disabled}
+            prefixCls={prefixCls}
             ref={resizableTextAreaRef}
           />
         }
@@ -197,7 +203,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     if (showCount) {
       const valueLength = [...val].length;
 
-      let dataCount: ReactNode = '';
+      let dataCount: ReactNode;
       if (typeof showCount === 'object') {
         dataCount = showCount.formatter({
           value: val,
@@ -211,7 +217,11 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       return (
         <div
           hidden={rest.hidden}
-          className={classNames(`${prefixCls}-show-count`, className)}
+          className={classNames(
+            `${prefixCls}-show-count`,
+            className,
+            classes?.countWrapper,
+          )}
           style={style}
           data-count={dataCount}
         >
