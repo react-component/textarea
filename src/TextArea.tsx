@@ -186,7 +186,6 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             onChange={handleChange}
             onCompositionStart={onInternalCompositionStart}
             onCompositionEnd={onInternalCompositionEnd}
-            maxLength={maxLength}
             className={classNames(
               showCount ? '' : className,
               classes?.textarea,
