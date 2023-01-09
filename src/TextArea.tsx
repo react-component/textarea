@@ -175,7 +175,9 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         handleReset={handleReset}
         suffix={suffix}
         prefixCls={prefixCls}
-        affixWrapperClassName={classes?.affixWrapper}
+        classes={{
+          affixWrapper: classes?.affixWrapper,
+        }}
         disabled={disabled}
         style={style}
         inputStyle={{ resize: style?.resize }}
