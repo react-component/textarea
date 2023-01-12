@@ -36,6 +36,7 @@ const SIZING_STYLE = [
   'border-width',
   'box-sizing',
   'word-break',
+  'white-space',
 ];
 
 export interface NodeType {
