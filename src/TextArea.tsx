@@ -191,6 +191,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             className={classNames(
               showCount ? '' : className,
               classes?.textarea,
+              allowClear ? `${prefixCls}-textarea-show-allowClear` : '',
             )}
             style={!showCount && style}
             disabled={disabled}
