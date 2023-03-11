@@ -6,7 +6,7 @@ import {
 } from 'rc-input/lib/utils/commonUtils';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
-import React, { useImperativeHandle, useRef } from 'react';
+import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import type {
   ResizableTextAreaRef,
   TextAreaProps,
@@ -65,11 +65,14 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     });
     const resizableTextAreaRef = useRef<ResizableTextAreaRef>(null);
 
+    const [focused, setFocused] = React.useState<boolean>(false);
+
     const [compositing, setCompositing] = React.useState(false);
     const oldCompositionValueRef = React.useRef<string>();
     const oldSelectionStartRef = React.useRef<number>(0);
 
     const focus = () => {
+      setFocused(true);
       resizableTextAreaRef.current.textArea.focus();
     };
 
@@ -77,9 +80,14 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       resizableTextArea: resizableTextAreaRef.current,
       focus,
       blur: () => {
+        setFocused(false);
         resizableTextAreaRef.current.textArea.blur();
       },
     }));
+
+    useEffect(() => {
+      setFocused((prev) => (prev && disabled ? false : prev));
+    }, [disabled]);
 
     // =========================== Value Update ===========================
     // Max length value
@@ -179,6 +187,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
           affixWrapper: classes?.affixWrapper,
         }}
         disabled={disabled}
+        focused={focused}
         style={style}
         inputStyle={{ resize: style?.resize }}
         inputElement={
