@@ -76,4 +76,18 @@ describe('focus and blur', () => {
     render(<TextArea autoFocus onFocus={handleFocus} />);
     expect(focused).toBeTruthy();
   });
+
+  it('check className when onFocus and onBlur', () => {
+    const { container } = render(<TextArea allowClear />);
+
+    fireEvent.focus(container.querySelector('textarea'));
+    expect(
+      document.querySelector('.rc-textarea-affix-wrapper-focused'),
+    ).toBeTruthy();
+
+    fireEvent.blur(container.querySelector('textarea'));
+    expect(
+      container.querySelector('.rc-textarea-affix-wrapper-focused'),
+    ).toBeFalsy();
+  });
 });

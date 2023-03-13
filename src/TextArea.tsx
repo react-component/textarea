@@ -43,6 +43,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     {
       defaultValue,
       value: customValue,
+      onFocus,
+      onBlur,
       onChange,
       allowClear,
       maxLength,
@@ -72,7 +74,6 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     const oldSelectionStartRef = React.useRef<number>(0);
 
     const focus = () => {
-      setFocused(true);
       resizableTextAreaRef.current.textArea.focus();
     };
 
@@ -80,13 +81,12 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       resizableTextArea: resizableTextAreaRef.current,
       focus,
       blur: () => {
-        setFocused(false);
         resizableTextAreaRef.current.textArea.blur();
       },
     }));
 
     useEffect(() => {
-      setFocused((prev) => (prev && disabled ? false : prev));
+      setFocused((prev) => !disabled && prev);
     }, [disabled]);
 
     // =========================== Value Update ===========================
@@ -158,6 +158,16 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       onKeyDown?.(e);
     };
 
+    const handleFocus: React.FocusEventHandler<HTMLTextAreaElement> = (e) => {
+      setFocused(true);
+      onFocus?.(e);
+    };
+
+    const handleBlur: React.FocusEventHandler<HTMLTextAreaElement> = (e) => {
+      setFocused(false);
+      onBlur?.(e);
+    };
+
     // ============================== Reset ===============================
     const handleReset = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
       setValue('');
@@ -195,6 +205,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             {...rest}
             onKeyDown={handleKeyDown}
             onChange={handleChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             onCompositionStart={onInternalCompositionStart}
             onCompositionEnd={onInternalCompositionEnd}
             className={classNames(
