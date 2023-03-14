@@ -176,7 +176,10 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         suffix={suffix}
         prefixCls={prefixCls}
         classes={{
-          affixWrapper: classes?.affixWrapper,
+          affixWrapper: classNames(
+            classes?.affixWrapper,
+            allowClear ? `${prefixCls}-textarea-allow-clear` : '',
+          ),
         }}
         disabled={disabled}
         style={style}
@@ -191,7 +194,6 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             className={classNames(
               showCount ? '' : className,
               classes?.textarea,
-              allowClear ? `${prefixCls}-textarea-show-allowClear` : '',
             )}
             style={!showCount && style}
             disabled={disabled}
