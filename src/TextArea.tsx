@@ -6,7 +6,7 @@ import {
 } from 'rc-input/lib/utils/commonUtils';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
-import React, { useImperativeHandle, useRef } from 'react';
+import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import type {
   ResizableTextAreaRef,
   TextAreaProps,
@@ -43,6 +43,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     {
       defaultValue,
       value: customValue,
+      onFocus,
+      onBlur,
       onChange,
       allowClear,
       maxLength,
@@ -65,6 +67,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     });
     const resizableTextAreaRef = useRef<ResizableTextAreaRef>(null);
 
+    const [focused, setFocused] = React.useState<boolean>(false);
+
     const [compositing, setCompositing] = React.useState(false);
     const oldCompositionValueRef = React.useRef<string>();
     const oldSelectionStartRef = React.useRef<number>(0);
@@ -80,6 +84,10 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         resizableTextAreaRef.current.textArea.blur();
       },
     }));
+
+    useEffect(() => {
+      setFocused((prev) => !disabled && prev);
+    }, [disabled]);
 
     // =========================== Value Update ===========================
     // Max length value
@@ -150,6 +158,16 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       onKeyDown?.(e);
     };
 
+    const handleFocus: React.FocusEventHandler<HTMLTextAreaElement> = (e) => {
+      setFocused(true);
+      onFocus?.(e);
+    };
+
+    const handleBlur: React.FocusEventHandler<HTMLTextAreaElement> = (e) => {
+      setFocused(false);
+      onBlur?.(e);
+    };
+
     // ============================== Reset ===============================
     const handleReset = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
       setValue('');
@@ -179,6 +197,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
           affixWrapper: classes?.affixWrapper,
         }}
         disabled={disabled}
+        focused={focused}
         style={style}
         inputStyle={{ resize: style?.resize }}
         inputElement={
@@ -186,6 +205,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             {...rest}
             onKeyDown={handleKeyDown}
             onChange={handleChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             onCompositionStart={onInternalCompositionStart}
             onCompositionEnd={onInternalCompositionEnd}
             className={classNames(
