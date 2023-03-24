@@ -186,20 +186,54 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       val = fixEmojiLength(val, maxLength!);
     }
 
+    let suffixNode = suffix;
+    let dataCount: ReactNode;
+    if (showCount) {
+      const valueLength = [...val].length;
+
+      if (typeof showCount === 'object') {
+        dataCount = showCount.formatter({
+          value: val,
+          count: valueLength,
+          maxLength,
+        });
+      } else {
+        dataCount = `${valueLength}${hasMaxLength ? ` / ${maxLength}` : ''}`;
+      }
+
+      suffixNode = (
+        <>
+          {suffixNode}
+          <span
+            className={classNames(`${prefixCls}-data-count`, classes?.count)}
+          >
+            {dataCount}
+          </span>
+        </>
+      );
+    }
+
     const textarea = (
       <BaseInput
         value={val}
         allowClear={allowClear}
         handleReset={handleReset}
-        suffix={suffix}
+        suffix={suffixNode}
         prefixCls={prefixCls}
         classes={{
-          affixWrapper: classes?.affixWrapper,
+          affixWrapper: classNames(classes?.affixWrapper, {
+            [`${prefixCls}-show-count`]: showCount,
+          }),
         }}
         disabled={disabled}
         focused={focused}
         style={style}
         inputStyle={{ resize: style?.resize }}
+        dataAttrs={{
+          affixWrapper: {
+            'data-count': typeof dataCount === 'string' ? dataCount : undefined,
+          },
+        }}
         inputElement={
           <ResizableTextArea
             {...rest}
@@ -221,37 +255,6 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         }
       />
     );
-
-    if (showCount) {
-      const valueLength = [...val].length;
-
-      let dataCount: ReactNode;
-      if (typeof showCount === 'object') {
-        dataCount = showCount.formatter({
-          value: val,
-          count: valueLength,
-          maxLength,
-        });
-      } else {
-        dataCount = `${valueLength}${hasMaxLength ? ` / ${maxLength}` : ''}`;
-      }
-
-      return (
-        <div
-          hidden={rest.hidden}
-          className={classNames(
-            `${prefixCls}-show-count`,
-            className,
-            classes?.countWrapper,
-          )}
-          style={style}
-          data-count={dataCount}
-        >
-          {textarea}
-          <span className={`${prefixCls}-data-count`}>{dataCount}</span>
-        </div>
-      );
-    }
 
     return textarea;
   },
