@@ -26,6 +26,7 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize'> & {
     textarea?: string;
     countWrapper?: string;
     affixWrapper?: string;
+    count?: string;
   };
 } & Pick<BaseInputProps, 'allowClear' | 'suffix'>;
 
