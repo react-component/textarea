@@ -194,7 +194,10 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         suffix={suffix}
         prefixCls={prefixCls}
         classes={{
-          affixWrapper: classes?.affixWrapper,
+          affixWrapper: classNames(
+            classes?.affixWrapper,
+            allowClear ? `${prefixCls}-textarea-allow-clear` : '',
+          ),
         }}
         disabled={disabled}
         focused={focused}
