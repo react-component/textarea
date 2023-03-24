@@ -105,3 +105,17 @@ describe('should support allowClear', () => {
     ).toBeTruthy();
   });
 });
+
+it('should show clear className', () => {
+  const { container } = render(<TextArea allowClear />);
+  expect(
+    container.querySelector('.rc-textarea-textarea-allow-clear'),
+  ).toBeTruthy();
+});
+
+it('should not textarea clear className', () => {
+  const { container } = render(<TextArea />);
+  expect(
+    container.querySelector('.rc-textarea-textarea-allow-clear'),
+  ).toBeFalsy();
+});

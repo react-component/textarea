@@ -223,6 +223,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         classes={{
           affixWrapper: classNames(classes?.affixWrapper, {
             [`${prefixCls}-show-count`]: showCount,
+            [`${prefixCls}-textarea-allow-clear`]: allowClear,
           }),
         }}
         disabled={disabled}
