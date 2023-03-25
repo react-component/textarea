@@ -57,6 +57,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       className,
       style,
       disabled,
+      hidden,
       ...rest
     },
     ref,
@@ -228,6 +229,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         }}
         disabled={disabled}
         focused={focused}
+        className={className}
         style={style}
         inputStyle={{ resize: style?.resize }}
         dataAttrs={{
@@ -235,6 +237,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             'data-count': typeof dataCount === 'string' ? dataCount : undefined,
           },
         }}
+        hidden={hidden}
         inputElement={
           <ResizableTextArea
             {...rest}
@@ -244,10 +247,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             onBlur={handleBlur}
             onCompositionStart={onInternalCompositionStart}
             onCompositionEnd={onInternalCompositionEnd}
-            className={classNames(
-              showCount ? '' : className,
-              classes?.textarea,
-            )}
+            className={classes?.textarea}
             style={!showCount && style}
             disabled={disabled}
             prefixCls={prefixCls}
