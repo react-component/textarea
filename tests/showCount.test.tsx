@@ -108,4 +108,24 @@ describe('should support showCount', () => {
       ).toBe('5 / 5');
     });
   });
+
+  it('className & style patch to outer', () => {
+    const { container } = render(
+      <TextArea className="bamboo" style={{ background: 'red' }} showCount />,
+    );
+
+    // Outer
+    expect(
+      container.querySelector('span')?.classList.contains('bamboo'),
+    ).toBeTruthy();
+    expect(container.querySelector('span')?.style.background).toEqual('red');
+
+    // Inner
+    expect(
+      container.querySelector('.rc-textarea')?.classList.contains('bamboo'),
+    ).toBeFalsy();
+    expect(
+      container.querySelector<HTMLDivElement>('.rc-textarea')?.style.background,
+    ).toBeFalsy();
+  });
 });
