@@ -1,5 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TextArea classNames and styles should work 1`] = `
+<div>
+  <textarea
+    class="rc-textarea custom-textarea custom-class"
+    style="color: red; background: red;"
+  />
+  <span
+    class="rc-textarea-affix-wrapper custom-class rc-textarea-show-count"
+    data-count="0"
+    style="background: red;"
+  >
+    <textarea
+      class="rc-textarea custom-textarea"
+      style="color: red;"
+    />
+    <span
+      class="rc-textarea-suffix"
+    >
+      <span
+        class="rc-textarea-data-count custom-count"
+        style="color: blue;"
+      >
+        0
+      </span>
+    </span>
+  </span>
+</div>
+`;
+
 exports[`TextArea should support disabled 1`] = `
 <textarea
   class="rc-textarea rc-textarea-disabled"

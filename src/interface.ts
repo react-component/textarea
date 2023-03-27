@@ -1,5 +1,6 @@
 import type { BaseInputProps, ShowCountProps } from 'rc-input/lib/interface';
 import type React from 'react';
+import type { CSSProperties } from 'react';
 
 export interface AutoSizeType {
   minRows?: number;
@@ -23,10 +24,16 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize'> & {
   onResize?: (size: { width: number; height: number }) => void;
   showCount?: boolean | ShowCountProps;
   classes?: {
-    textarea?: string;
     countWrapper?: string;
     affixWrapper?: string;
+  };
+  classNames?: {
+    textarea?: string;
     count?: string;
+  };
+  styles?: {
+    textarea?: CSSProperties;
+    count?: CSSProperties;
   };
 } & Pick<BaseInputProps, 'allowClear' | 'suffix'>;
 

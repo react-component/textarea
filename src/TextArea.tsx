@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'classnames';
 import { BaseInput } from 'rc-input';
 import {
   fixControlledValue,
@@ -58,6 +58,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       style,
       disabled,
       hidden,
+      classNames,
+      styles,
       ...rest
     },
     ref,
@@ -206,7 +208,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         <>
           {suffixNode}
           <span
-            className={classNames(`${prefixCls}-data-count`, classes?.count)}
+            className={clsx(`${prefixCls}-data-count`, classNames?.count)}
+            style={styles?.count}
           >
             {dataCount}
           </span>
@@ -222,7 +225,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         suffix={suffixNode}
         prefixCls={prefixCls}
         classes={{
-          affixWrapper: classNames(classes?.affixWrapper, {
+          affixWrapper: clsx(classes?.affixWrapper, {
             [`${prefixCls}-show-count`]: showCount,
             [`${prefixCls}-textarea-allow-clear`]: allowClear,
           }),
@@ -231,7 +234,6 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         focused={focused}
         className={className}
         style={style}
-        inputStyle={{ resize: style?.resize }}
         dataAttrs={{
           affixWrapper: {
             'data-count': typeof dataCount === 'string' ? dataCount : undefined,
@@ -247,8 +249,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             onBlur={handleBlur}
             onCompositionStart={onInternalCompositionStart}
             onCompositionEnd={onInternalCompositionEnd}
-            className={classes?.textarea}
-            style={!showCount && style}
+            className={classNames?.textarea}
+            style={{ ...styles?.textarea, resize: style?.resize }}
             disabled={disabled}
             prefixCls={prefixCls}
             ref={resizableTextAreaRef}
