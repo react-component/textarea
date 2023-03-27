@@ -355,4 +355,45 @@ describe('TextArea', () => {
 
     expect(container.querySelector('textarea')?.value).toBe('1234');
   });
+
+  it('classNames and styles should work', () => {
+    const { container } = render(
+      <>
+        <TextArea
+          className="custom-class"
+          style={{ background: 'red' }}
+          classNames={{
+            textarea: 'custom-textarea',
+            count: 'custom-count',
+          }}
+          styles={{
+            textarea: {
+              color: 'red',
+            },
+            count: {
+              color: 'blue',
+            },
+          }}
+        />
+        <TextArea
+          showCount
+          className="custom-class"
+          style={{ background: 'red' }}
+          classNames={{
+            textarea: 'custom-textarea',
+            count: 'custom-count',
+          }}
+          styles={{
+            textarea: {
+              color: 'red',
+            },
+            count: {
+              color: 'blue',
+            },
+          }}
+        />
+      </>,
+    );
+    expect(container).toMatchSnapshot();
+  });
 });
