@@ -76,6 +76,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     const [compositing, setCompositing] = React.useState(false);
     const oldCompositionValueRef = React.useRef<string>();
     const oldSelectionStartRef = React.useRef<number>(0);
+    // Since ResizeObserver would resize once on mounted, manual resizing should be happened after that
     const [resizeStatus, setResizeStatus] = React.useState<
       'mounted' | 'resized' | null
     >(null);
