@@ -248,8 +248,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         focused={focused}
         className={className}
         style={{
-          ...style,
           ...(resizeStatus === 'resized' ? { height: 'auto' } : {}),
+          ...style,
         }}
         dataAttrs={{
           affixWrapper: {
