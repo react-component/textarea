@@ -60,6 +60,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       hidden,
       classNames,
       styles,
+      onResize,
       ...rest
     },
     ref,
@@ -75,6 +76,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     const [compositing, setCompositing] = React.useState(false);
     const oldCompositionValueRef = React.useRef<string>();
     const oldSelectionStartRef = React.useRef<number>(0);
+    const [textareaResized, setTextareaResized] = React.useState<boolean>(null);
 
     const focus = () => {
       resizableTextAreaRef.current.textArea.focus();
@@ -217,6 +219,13 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       );
     }
 
+    const handleResize: TextAreaProps['onResize'] = (size) => {
+      onResize?.(size);
+      if (resizableTextAreaRef.current.textArea.style.height) {
+        setTextareaResized(true);
+      }
+    };
+
     const textarea = (
       <BaseInput
         value={val}
@@ -233,7 +242,10 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         disabled={disabled}
         focused={focused}
         className={className}
-        style={style}
+        style={{
+          ...style,
+          ...(textareaResized ? { height: 'auto' } : {}),
+        }}
         dataAttrs={{
           affixWrapper: {
             'data-count': typeof dataCount === 'string' ? dataCount : undefined,
@@ -253,6 +265,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             style={{ ...styles?.textarea, resize: style?.resize }}
             disabled={disabled}
             prefixCls={prefixCls}
+            onResize={handleResize}
             ref={resizableTextAreaRef}
           />
         }

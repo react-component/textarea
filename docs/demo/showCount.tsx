@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import Textarea from 'rc-textarea';
 import React, { useState } from 'react';
+import '../../assets/index.less';
 
 export default function App() {
   const [value, setValue] = useState('hello\nworld');
@@ -18,6 +19,13 @@ export default function App() {
       <Textarea autoSize showCount />
       <p>controlled</p>
       <Textarea value={value} onChange={onChange} showCount maxLength={100} />
+      <p>with height</p>
+      <Textarea
+        value={value}
+        onChange={onChange}
+        showCount
+        style={{ height: 200, width: '100%', resize: 'vertical' }}
+      />
     </div>
   );
 }
