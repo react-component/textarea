@@ -1,35 +1,11 @@
-import { act, fireEvent, render } from '@testing-library/react';
-import {
-  _rs as onEsResize,
-  _rs as onLibResize,
-} from 'rc-resize-observer/lib/utils/observerUtil';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import type { TextAreaProps } from '../src';
 import TextArea from '../src';
 import calculateAutoSizeStyle, {
   calculateNodeStyling,
 } from '../src/calculateNodeHeight';
-
-async function wait() {
-  for (let i = 0; i < 100; i += 1) {
-    await act(async () => {
-      jest.runAllTimers();
-      await Promise.resolve();
-    });
-  }
-}
-
-function triggerResize(target) {
-  const originGetBoundingClientRect = target.getBoundingClientRect;
-
-  target.getBoundingClientRect = () => ({ width: 510, height: 903 });
-  // @ts-ignore
-  onLibResize([{ target }]);
-  // @ts-ignore
-  onEsResize([{ target }]);
-
-  target.getBoundingClientRect = originGetBoundingClientRect;
-}
+import { triggerResize, wait } from './utils';
 
 describe('TextArea', () => {
   const originalGetComputedStyle = window.getComputedStyle;
@@ -395,5 +371,29 @@ describe('TextArea', () => {
       </>,
     );
     expect(container).toMatchSnapshot();
+  });
+
+  it('should be resized with textarea', async () => {
+    const onResize = jest.fn();
+    const { container } = render(
+      <TextArea onResize={onResize} showCount style={{ height: 200 }} />,
+    );
+    await wait();
+    expect(
+      (container.querySelector('.rc-textarea-affix-wrapper') as HTMLDivElement)
+        .style.height,
+    ).toBe('200px');
+
+    triggerResize(container.querySelector('textarea'));
+    await wait();
+    expect(onResize).toHaveBeenCalledTimes(1);
+
+    triggerResize(container.querySelector('textarea'), { height: 1000 });
+    await wait();
+    expect(onResize).toHaveBeenCalledTimes(2);
+    expect(
+      (container.querySelector('.rc-textarea-affix-wrapper') as HTMLDivElement)
+        .style.height,
+    ).toBe('auto');
   });
 });
