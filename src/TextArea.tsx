@@ -77,9 +77,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     const oldCompositionValueRef = React.useRef<string>();
     const oldSelectionStartRef = React.useRef<number>(0);
     // Since ResizeObserver would resize once on mounted, manual resizing should be happened after that
-    const [resizeStatus, setResizeStatus] = React.useState<
-      'mounted' | 'resized' | null
-    >(null);
+    const [textareaResized, setTextareaResized] = React.useState<boolean>(null);
 
     const focus = () => {
       resizableTextAreaRef.current.textArea.focus();
@@ -224,10 +222,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
 
     const handleResize: TextAreaProps['onResize'] = (size) => {
       onResize?.(size);
-      if (resizeStatus === null) {
-        setResizeStatus('mounted');
-      } else if (resizeStatus === 'mounted') {
-        setResizeStatus('resized');
+      if (resizableTextAreaRef.current.textArea.style.height) {
+        setTextareaResized(true);
       }
     };
 
@@ -249,7 +245,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         className={className}
         style={{
           ...style,
-          ...(resizeStatus === 'resized' ? { height: 'auto' } : {}),
+          ...(textareaResized ? { height: 'auto' } : {}),
         }}
         dataAttrs={{
           affixWrapper: {

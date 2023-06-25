@@ -384,13 +384,9 @@ describe('TextArea', () => {
         .style.height,
     ).toBe('200px');
 
-    triggerResize(container.querySelector('textarea'));
-    await wait();
-    expect(onResize).toHaveBeenCalledTimes(1);
-
     triggerResize(container.querySelector('textarea'), { height: 1000 });
     await wait();
-    expect(onResize).toHaveBeenCalledTimes(2);
+    expect(onResize).toHaveBeenCalledTimes(1);
     expect(
       (container.querySelector('.rc-textarea-affix-wrapper') as HTMLDivElement)
         .style.height,

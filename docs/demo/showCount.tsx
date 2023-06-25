@@ -24,7 +24,7 @@ export default function App() {
         value={value}
         onChange={onChange}
         showCount
-        style={{ height: 200 }}
+        style={{ height: 200, width: '100%', resize: 'vertical' }}
       />
     </div>
   );

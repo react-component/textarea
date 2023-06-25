@@ -17,6 +17,7 @@ export function triggerResize(
   // @ts-ignore
   onEsResize([{ target }]);
 
+  target.style.height = `${height}px`;
   target.getBoundingClientRect = originGetBoundingClientRect;
 }
 
