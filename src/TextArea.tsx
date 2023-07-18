@@ -79,14 +79,14 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     const [textareaResized, setTextareaResized] = React.useState<boolean>(null);
 
     const focus = () => {
-      resizableTextAreaRef.current.textArea.focus();
+      resizableTextAreaRef.current?.textArea.focus();
     };
 
     useImperativeHandle(ref, () => ({
       resizableTextArea: resizableTextAreaRef.current,
       focus,
       blur: () => {
-        resizableTextAreaRef.current.textArea.blur();
+        resizableTextAreaRef.current?.textArea.blur();
       },
     }));
 
@@ -177,7 +177,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     const handleReset = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
       setValue('');
       focus();
-      resolveOnChange(resizableTextAreaRef.current.textArea, e, onChange);
+      resolveOnChange(resizableTextAreaRef.current?.textArea, e, onChange);
     };
 
     let val = fixControlledValue(value);
@@ -221,7 +221,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
 
     const handleResize: TextAreaProps['onResize'] = (size) => {
       onResize?.(size);
-      if (resizableTextAreaRef.current.textArea.style.height) {
+      if (resizableTextAreaRef.current?.textArea.style.height) {
         setTextareaResized(true);
       }
     };
