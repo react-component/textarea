@@ -392,4 +392,21 @@ describe('TextArea', () => {
         .style.height,
     ).toBe('auto');
   });
+
+  it('pass style height should work', async () => {
+    const onResize = jest.fn();
+
+    const { container } = render(
+      <TextArea onResize={onResize} style={{ height: 93 }} />,
+    );
+
+    triggerResize(container.querySelector('textarea'));
+    await wait();
+
+    expect(onResize).toHaveBeenCalled();
+
+    expect(container.querySelector('textarea')).toHaveStyle({
+      height: '903px',
+    });
+  });
 });

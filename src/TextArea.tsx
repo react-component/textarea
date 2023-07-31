@@ -7,12 +7,12 @@ import {
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
+import ResizableTextArea from './ResizableTextArea';
 import type {
   ResizableTextAreaRef,
   TextAreaProps,
   TextAreaRef,
 } from './interface';
-import ResizableTextArea from './ResizableTextArea';
 
 function fixEmojiLength(value: string, maxLength: number) {
   return [...(value || '')].slice(0, maxLength).join('');
@@ -226,6 +226,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       }
     };
 
+    const isPureTextArea = !rest.autoSize && !showCount && !allowClear;
+
     const textarea = (
       <BaseInput
         value={val}
@@ -244,7 +246,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         className={className}
         style={{
           ...style,
-          ...(textareaResized ? { height: 'auto' } : {}),
+          ...(textareaResized && !isPureTextArea ? { height: 'auto' } : {}),
         }}
         dataAttrs={{
           affixWrapper: {
