@@ -226,6 +226,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       }
     };
 
+    const isPureTextArea = !rest.autoSize && !showCount && !allowClear;
+
     const textarea = (
       <BaseInput
         value={val}
@@ -244,7 +246,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         className={className}
         style={{
           ...style,
-          ...(textareaResized && rest.autoSize ? { height: 'auto' } : {}),
+          ...(textareaResized && !isPureTextArea ? { height: 'auto' } : {}),
         }}
         dataAttrs={{
           affixWrapper: {
