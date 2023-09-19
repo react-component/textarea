@@ -409,4 +409,9 @@ describe('TextArea', () => {
       height: '903px',
     });
   });
+
+  it('support bigint type', () => {
+    const { container } = render(<TextArea value={BigInt('903')} autoSize />);
+    expect(container.querySelector('textarea').value).toBe('903');
+  });
 });
