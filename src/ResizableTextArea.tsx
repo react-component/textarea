@@ -184,7 +184,7 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
             [`${prefixCls}-disabled`]: disabled,
           })}
           disabled={disabled}
-          value={mergedValue}
+          value={mergedValue as string}
           onChange={onInternalChange}
         />
       </ResizeObserver>
