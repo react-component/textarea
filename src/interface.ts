@@ -1,4 +1,4 @@
-import type { BaseInputProps, ShowCountProps } from 'rc-input/lib/interface';
+import type { BaseInputProps, InputProps } from 'rc-input/lib/interface';
 import type React from 'react';
 import type { CSSProperties } from 'react';
 
@@ -23,7 +23,6 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value'> & {
   autoSize?: boolean | AutoSizeType;
   onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
   onResize?: (size: { width: number; height: number }) => void;
-  showCount?: boolean | ShowCountProps;
   classes?: {
     countWrapper?: string;
     affixWrapper?: string;
@@ -36,7 +35,8 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value'> & {
     textarea?: CSSProperties;
     count?: CSSProperties;
   };
-} & Pick<BaseInputProps, 'allowClear' | 'suffix'>;
+} & Pick<BaseInputProps, 'allowClear' | 'suffix'> &
+  Pick<InputProps, 'showCount' | 'count'>;
 
 export type TextAreaRef = {
   resizableTextArea: ResizableTextAreaRef;

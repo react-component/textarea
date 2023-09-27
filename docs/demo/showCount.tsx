@@ -26,6 +26,30 @@ export default function App() {
         showCount
         style={{ height: 200, width: '100%', resize: 'vertical' }}
       />
+      <hr />
+      <p>Count.exceedFormatter</p>
+      <Textarea
+        defaultValue="👨‍👨‍👧‍👦"
+        count={{
+          show: true,
+          max: 5,
+        }}
+      />
+      <Textarea
+        defaultValue="🔥"
+        count={{
+          show: true,
+          max: 5,
+          exceedFormatter: (val, { max }) => {
+            const segments = [...new Intl.Segmenter().segment(val)];
+
+            return segments
+              .filter((seg) => seg.index + seg.segment.length <= max)
+              .map((seg) => seg.segment)
+              .join('');
+          },
+        }}
+      />
     </div>
   );
 }
