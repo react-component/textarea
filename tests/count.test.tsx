@@ -85,6 +85,32 @@ describe('TextArea.Count', () => {
     expect(onCompositionEnd).toHaveBeenCalled();
   });
 
+  it('exceedFormatter selection', () => {
+    const { container } = render(
+      <TextArea
+        count={{
+          show: true,
+          max: 3,
+          exceedFormatter: (val, { max }) => val.slice(0, max),
+        }}
+        defaultValue={'123'}
+      />,
+    );
+
+    const input = container.querySelector('textarea')!;
+    const setSelectionRange = jest.spyOn(input, 'setSelectionRange');
+
+    fireEvent.change(input, {
+      target: {
+        selectionStart: 2,
+        selectionEnd: 2,
+        value: '1a23',
+      },
+    });
+
+    expect(setSelectionRange).toHaveBeenCalledWith(2, 2);
+  });
+
   describe('cls', () => {
     it('raw', () => {
       const { container } = render(
