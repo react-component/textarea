@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkrc_textarea=self.webpackChunkrc_textarea||[]).push([[448],{97226:function(v,a,e){e.r(a),e.d(a,{default:function(){return u}});var t=e(57919),r=e(71062),o=function(){var d=(0,t.UO)(),m=d.id,s=(0,t.WF)(),c=s.demos,f=c[m]||{},n=f.component;return n&&(0,r.createElement)(n)},u=o}}]);
