@@ -1,9 +1,7 @@
 import clsx from 'classnames';
 import { BaseInput } from 'rc-input';
-import {
-  fixControlledValue,
-  resolveOnChange,
-} from 'rc-input/lib/utils/commonUtils';
+import useCount from 'rc-input/lib/hooks/useCount';
+import { resolveOnChange } from 'rc-input/lib/utils/commonUtils';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
@@ -14,29 +12,29 @@ import type {
   TextAreaRef,
 } from './interface';
 
-function fixEmojiLength(value: string, maxLength: number) {
-  return [...(value || '')].slice(0, maxLength).join('');
-}
+// function fixEmojiLength(value: string, maxLength: number) {
+//   return [...(value || '')].slice(0, maxLength).join('');
+// }
 
-function setTriggerValue(
-  isCursorInEnd: boolean,
-  preValue: string,
-  triggerValue: string,
-  maxLength: number,
-) {
-  let newTriggerValue = triggerValue;
-  if (isCursorInEnd) {
-    // 光标在尾部，直接截断
-    newTriggerValue = fixEmojiLength(triggerValue, maxLength!);
-  } else if (
-    [...(preValue || '')].length < triggerValue.length &&
-    [...(triggerValue || '')].length > maxLength!
-  ) {
-    // 光标在中间，如果最后的值超过最大值，则采用原先的值
-    newTriggerValue = preValue;
-  }
-  return newTriggerValue;
-}
+// function setTriggerValue(
+//   isCursorInEnd: boolean,
+//   preValue: string,
+//   triggerValue: string,
+//   maxLength: number,
+// ) {
+//   let newTriggerValue = triggerValue;
+//   if (isCursorInEnd) {
+//     // 光标在尾部，直接截断
+//     newTriggerValue = fixEmojiLength(triggerValue, maxLength!);
+//   } else if (
+//     [...(preValue || '')].length < triggerValue.length &&
+//     [...(triggerValue || '')].length > maxLength!
+//   ) {
+//     // 光标在中间，如果最后的值超过最大值，则采用原先的值
+//     newTriggerValue = preValue;
+//   }
+//   return newTriggerValue;
+// }
 
 const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
   (
@@ -54,6 +52,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       prefixCls = 'rc-textarea',
       classes,
       showCount,
+      count,
       className,
       style,
       disabled,
@@ -69,11 +68,16 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       value: customValue,
       defaultValue,
     });
+    const formatValue =
+      value === undefined || value === null ? '' : String(value);
+
     const resizableTextAreaRef = useRef<ResizableTextAreaRef>(null);
 
     const [focused, setFocused] = React.useState<boolean>(false);
 
     const [compositing, setCompositing] = React.useState(false);
+    const compositionRef = React.useRef(false);
+
     const oldCompositionValueRef = React.useRef<string>();
     const oldSelectionStartRef = React.useRef<number>(0);
     const [textareaResized, setTextareaResized] = React.useState<boolean>(null);
@@ -94,65 +98,101 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       setFocused((prev) => !disabled && prev);
     }, [disabled]);
 
-    // =========================== Value Update ===========================
-    // Max length value
-    const hasMaxLength = Number(maxLength) > 0;
+    // ============================== Count ===============================
+    const countConfig = useCount(count, showCount);
+    const mergedMax = countConfig.max ?? maxLength;
 
+    // Max length value
+    const hasMaxLength = Number(mergedMax) > 0;
+
+    const valueLength = countConfig.strategy(formatValue);
+
+    const isOutOfRange = !!mergedMax && valueLength > mergedMax;
+
+    // ============================== Change ==============================
+    const triggerChange = (
+      e:
+        | React.ChangeEvent<HTMLTextAreaElement>
+        | React.CompositionEvent<HTMLTextAreaElement>,
+      currentValue: string,
+    ) => {
+      let cutValue = currentValue;
+
+      if (
+        !compositionRef.current &&
+        countConfig.exceedFormatter &&
+        countConfig.max &&
+        countConfig.strategy(currentValue) > countConfig.max
+      ) {
+        cutValue = countConfig.exceedFormatter(currentValue, {
+          max: countConfig.max,
+        });
+      }
+      setValue(cutValue);
+
+      resolveOnChange(e.currentTarget, e, onChange, cutValue);
+    };
+
+    // =========================== Value Update ===========================
     const onInternalCompositionStart: React.CompositionEventHandler<
       HTMLTextAreaElement
     > = (e) => {
-      setCompositing(true);
-      // 拼音输入前保存一份旧值
-      oldCompositionValueRef.current = value as string;
-      // 保存旧的光标位置
-      oldSelectionStartRef.current = e.currentTarget.selectionStart;
+      // setCompositing(true);
+      // // 拼音输入前保存一份旧值
+      // oldCompositionValueRef.current = value as string;
+      // // 保存旧的光标位置
+      // oldSelectionStartRef.current = e.currentTarget.selectionStart;
+      compositionRef.current = true;
       onCompositionStart?.(e);
     };
 
     const onInternalCompositionEnd: React.CompositionEventHandler<
       HTMLTextAreaElement
     > = (e) => {
-      setCompositing(false);
+      // setCompositing(false);
 
-      let triggerValue = e.currentTarget.value;
-      if (hasMaxLength) {
-        const isCursorInEnd =
-          oldSelectionStartRef.current >= maxLength! + 1 ||
-          oldSelectionStartRef.current ===
-            oldCompositionValueRef.current?.length;
-        triggerValue = setTriggerValue(
-          isCursorInEnd,
-          oldCompositionValueRef.current as string,
-          triggerValue,
-          maxLength!,
-        );
-      }
-      // Patch composition onChange when value changed
-      if (triggerValue !== value) {
-        setValue(triggerValue);
-        resolveOnChange(e.currentTarget, e, onChange, triggerValue);
-      }
+      // let triggerValue = e.currentTarget.value;
+      // if (hasMaxLength) {
+      //   const isCursorInEnd =
+      //     oldSelectionStartRef.current >= maxLength! + 1 ||
+      //     oldSelectionStartRef.current ===
+      //       oldCompositionValueRef.current?.length;
+      //   triggerValue = setTriggerValue(
+      //     isCursorInEnd,
+      //     oldCompositionValueRef.current as string,
+      //     triggerValue,
+      //     maxLength!,
+      //   );
+      // }
+      // // Patch composition onChange when value changed
+      // if (triggerValue !== value) {
+      //   setValue(triggerValue);
+      //   resolveOnChange(e.currentTarget, e, onChange, triggerValue);
+      // }
 
+      compositionRef.current = false;
+      triggerChange(e, e.currentTarget.value);
       onCompositionEnd?.(e);
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      let triggerValue = e.target.value;
-      if (!compositing && hasMaxLength) {
-        // 1. 复制粘贴超过maxlength的情况 2.未超过maxlength的情况
-        const isCursorInEnd =
-          e.target.selectionStart >= maxLength! + 1 ||
-          e.target.selectionStart === triggerValue.length ||
-          !e.target.selectionStart;
-        triggerValue = setTriggerValue(
-          isCursorInEnd,
-          value as string,
-          triggerValue,
-          maxLength!,
-        );
-      }
-      setValue(triggerValue);
-      resolveOnChange(e.currentTarget, e, onChange, triggerValue);
+    const onInternalChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      // let triggerValue = e.target.value;
+      // if (!compositing && hasMaxLength) {
+      //   // 1. 复制粘贴超过maxlength的情况 2.未超过maxlength的情况
+      //   const isCursorInEnd =
+      //     e.target.selectionStart >= maxLength! + 1 ||
+      //     e.target.selectionStart === triggerValue.length ||
+      //     !e.target.selectionStart;
+      //   triggerValue = setTriggerValue(
+      //     isCursorInEnd,
+      //     value as string,
+      //     triggerValue,
+      //     maxLength!,
+      //   );
+      // }
+      // setValue(triggerValue);
+      // resolveOnChange(e.currentTarget, e, onChange, triggerValue);
+      triggerChange(e, e.target.value);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -180,30 +220,28 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       resolveOnChange(resizableTextAreaRef.current?.textArea, e, onChange);
     };
 
-    let val = fixControlledValue(value);
+    // let val = value === null || value === undefined ? '' : String(value);
 
-    if (
-      !compositing &&
-      hasMaxLength &&
-      (customValue === null || customValue === undefined)
-    ) {
-      // fix #27612 将value转为数组进行截取，解决 '😂'.length === 2 等emoji表情导致的截取乱码的问题
-      val = fixEmojiLength(val, maxLength!);
-    }
+    // if (
+    //   !compositing &&
+    //   hasMaxLength &&
+    //   (customValue === null || customValue === undefined)
+    // ) {
+    //   // fix #27612 将value转为数组进行截取，解决 '😂'.length === 2 等emoji表情导致的截取乱码的问题
+    //   val = fixEmojiLength(val, maxLength!);
+    // }
 
     let suffixNode = suffix;
     let dataCount: ReactNode;
-    if (showCount) {
-      const valueLength = [...val].length;
-
-      if (typeof showCount === 'object') {
-        dataCount = showCount.formatter({
-          value: val,
+    if (countConfig.show) {
+      if (countConfig.showFormatter) {
+        dataCount = countConfig.showFormatter({
+          value: formatValue,
           count: valueLength,
-          maxLength,
+          maxLength: mergedMax,
         });
       } else {
-        dataCount = `${valueLength}${hasMaxLength ? ` / ${maxLength}` : ''}`;
+        dataCount = `${valueLength}${hasMaxLength ? ` / ${mergedMax}` : ''}`;
       }
 
       suffixNode = (
@@ -230,7 +268,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
 
     const textarea = (
       <BaseInput
-        value={val}
+        value={formatValue}
         allowClear={allowClear}
         handleReset={handleReset}
         suffix={suffixNode}
@@ -243,7 +281,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         }}
         disabled={disabled}
         focused={focused}
-        className={className}
+        className={clsx(className, isOutOfRange && `${prefixCls}-out-of-range`)}
         style={{
           ...style,
           ...(textareaResized && !isPureTextArea ? { height: 'auto' } : {}),
@@ -258,12 +296,12 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
           <ResizableTextArea
             {...rest}
             onKeyDown={handleKeyDown}
-            onChange={handleChange}
+            onChange={onInternalChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
             onCompositionStart={onInternalCompositionStart}
             onCompositionEnd={onInternalCompositionEnd}
-            className={classNames?.textarea}
+            className={clsx(classNames?.textarea)}
             style={{ ...styles?.textarea, resize: style?.resize }}
             disabled={disabled}
             prefixCls={prefixCls}

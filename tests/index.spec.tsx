@@ -270,68 +270,6 @@ describe('TextArea', () => {
     expect(fakeHandlePressEnter).toHaveBeenCalledTimes(1);
   });
 
-  // 字符输入
-  it('should not cut off string when cursor position is not at the end', () => {
-    const onChange = jest.fn();
-    const { container } = render(
-      <TextArea maxLength={6} defaultValue="123456" onChange={onChange} />,
-    );
-    fireEvent.change(container.querySelector('textarea')!, {
-      target: { selectionStart: 1, value: 'w123456' },
-    });
-    fireEvent.change(container.querySelector('textarea')!, {
-      target: { selectionStart: 3, value: 'w123456' },
-    });
-    expect(container.querySelector('textarea')?.value).toBe('123456');
-  });
-
-  // 拼音输入
-  // 1. 光标位于最后，且当前字符数未达到6个，若选中的字符 + 原字符的长度超过6个，则将最终的字符按照maxlength截断
-  it('when the input method is pinyin and the cursor is at the end, should use maxLength to crop', () => {
-    const onChange = jest.fn();
-    const { container } = render(
-      <TextArea maxLength={6} defaultValue="1234" onChange={onChange} />,
-    );
-    fireEvent.change(container.querySelector('textarea')!, {
-      target: { selectionStart: 4, value: '1234' },
-    });
-    fireEvent.compositionStart(container.querySelector('textarea')!);
-
-    fireEvent.change(container.querySelector('textarea')!, {
-      target: { selectionStart: 9, value: '1234z z z' },
-    });
-    fireEvent.change(container.querySelector('textarea')!, {
-      target: { selectionStart: 7, value: '1234组织者' },
-    });
-
-    fireEvent.compositionEnd(container.querySelector('textarea')!);
-
-    expect(container.querySelector('textarea')?.value).toBe('1234组织');
-  });
-
-  // 2. 光标位于中间或开头，且当前字符数未达到6个，若选中的字符 + 原字符的长度超过6个，则显示原有字符
-  it('when the input method is Pinyin and the cursor is in the middle, should display the original string', () => {
-    const onChange = jest.fn();
-    const { container } = render(
-      <TextArea maxLength={6} defaultValue="1234" onChange={onChange} />,
-    );
-    fireEvent.change(container.querySelector('textarea')!, {
-      target: { selectionStart: 2, value: '1234' },
-    });
-    fireEvent.compositionStart(container.querySelector('textarea')!);
-
-    fireEvent.change(container.querySelector('textarea')!, {
-      target: { selectionStart: 2, value: '12z z z34' },
-    });
-    fireEvent.change(container.querySelector('textarea')!, {
-      target: { selectionStart: 5, value: '12组织者34' },
-    });
-
-    fireEvent.compositionEnd(container.querySelector('textarea')!);
-
-    expect(container.querySelector('textarea')?.value).toBe('1234');
-  });
-
   it('classNames and styles should work', () => {
     const { container } = render(
       <>
