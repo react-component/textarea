@@ -1,6 +1,6 @@
 {
   "name": "rc-textarea",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Pretty Textarea react component used in used in ant.design",
   "keywords": [
     "react",
