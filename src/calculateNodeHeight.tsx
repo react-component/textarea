@@ -5,38 +5,38 @@ import type React from 'react';
  * calculateNodeHeight(uiTextNode, useCache = false)
  */
 
-const HIDDEN_TEXTAREA_STYLE = `
-  min-height:0 !important;
-  max-height:none !important;
-  height:0 !important;
-  visibility:hidden !important;
-  overflow:hidden !important;
-  position:absolute !important;
-  z-index:-1000 !important;
-  top:0 !important;
-  right:0 !important;
-  pointer-events: none !important;
-`;
+const HIDDEN_TEXTAREA_STYLE = {
+  minHeight: '0 !important',
+  maxHeight: 'none !important',
+  height: '0 !important',
+  visibility: 'hidden !important',
+  overflow: 'hidden !important',
+  position: 'absolute !important',
+  zIndex: '-1000 !important',
+  top: '0 !important',
+  right: '0 !important',
+  pointerEvents: 'none !important',
+};
 
 const SIZING_STYLE = [
-  'letter-spacing',
-  'line-height',
-  'padding-top',
-  'padding-bottom',
-  'font-family',
-  'font-weight',
-  'font-size',
-  'font-variant',
-  'text-rendering',
-  'text-transform',
+  'letterSpacing',
+  'lineHeight',
+  'paddingTop',
+  'paddingBottom',
+  'fontFamily',
+  'fontWeight',
+  'fontSize',
+  'fontVariant',
+  'textRendering',
+  'textTransform',
   'width',
-  'text-indent',
-  'padding-left',
-  'padding-right',
-  'border-width',
-  'box-sizing',
-  'word-break',
-  'white-space',
+  'textIndent',
+  'paddingLeft',
+  'paddingRight',
+  'borderWidth',
+  'boxSizing',
+  'wordBreak',
+  'whiteSpace',
 ];
 
 export interface NodeType {
@@ -73,9 +73,9 @@ export function calculateNodeStyling(node: HTMLElement, useCache = false) {
     parseFloat(style.getPropertyValue('border-bottom-width')) +
     parseFloat(style.getPropertyValue('border-top-width'));
 
-  const sizingStyle = SIZING_STYLE.map(
-    (name) => `${name}:${style.getPropertyValue(name)}`,
-  ).join(';');
+  const sizingStyle = Object.fromEntries(SIZING_STYLE.map(
+    (name) => [name, style.getPropertyValue(name.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`))],
+  ));
 
   const nodeInfo: NodeType = {
     sizingStyle,
@@ -123,10 +123,9 @@ export default function calculateAutoSizeStyle(
   // Need to have the overflow attribute to hide the scrollbar otherwise
   // text-lines will not calculated properly as the shadow will technically be
   // narrower for content
-  hiddenTextarea.setAttribute(
-    'style',
-    `${sizingStyle};${HIDDEN_TEXTAREA_STYLE}`,
-  );
+  for (const [name, value] of Object.entries({ ...sizingStyle, HIDDEN_TEXTAREA_STYLE })) {
+    hiddenTextarea.style[name] = value
+  }
   hiddenTextarea.value = uiTextNode.value || uiTextNode.placeholder || '';
 
   let minHeight: number | undefined = undefined;
