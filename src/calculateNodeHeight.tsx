@@ -123,7 +123,7 @@ export default function calculateAutoSizeStyle(
   // Need to have the overflow attribute to hide the scrollbar otherwise
   // text-lines will not calculated properly as the shadow will technically be
   // narrower for content
-  for (const [name, value] of Object.entries({ ...sizingStyle, HIDDEN_TEXTAREA_STYLE })) {
+  for (const [name, value] of Object.entries({ ...sizingStyle, ...HIDDEN_TEXTAREA_STYLE })) {
     hiddenTextarea.style[name] = value
   }
   hiddenTextarea.value = uiTextNode.value || uiTextNode.placeholder || '';
