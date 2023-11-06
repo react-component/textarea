@@ -202,7 +202,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
 
     const handleResize: TextAreaProps['onResize'] = (size) => {
       onResize?.(size);
-      if (getTextArea().style.height) {
+      if (getTextArea()?.style.height) {
         setTextareaResized(true);
       }
     };
