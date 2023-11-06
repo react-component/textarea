@@ -49,11 +49,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
 
     const [focused, setFocused] = React.useState<boolean>(false);
 
-    const [compositing, setCompositing] = React.useState(false);
     const compositionRef = React.useRef(false);
 
-    const oldCompositionValueRef = React.useRef<string>();
-    const oldSelectionStartRef = React.useRef<number>(0);
     const [textareaResized, setTextareaResized] = React.useState<boolean>(null);
 
     // =============================== Ref ================================
