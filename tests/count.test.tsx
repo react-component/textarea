@@ -9,9 +9,9 @@ describe('TextArea.Count', () => {
     const { container } = render(
       <TextArea count={{ show: true }} value="👨‍👩‍👧‍👦" />,
     );
-    expect(
-      container.querySelector('.rc-textarea-suffix')?.textContent,
-    ).toEqual('11');
+    expect(container.querySelector('.rc-textarea-suffix')?.textContent).toEqual(
+      '11',
+    );
   });
 
   it('strategy', () => {
@@ -21,9 +21,9 @@ describe('TextArea.Count', () => {
         value="👨‍👩‍👧‍👦"
       />,
     );
-    expect(
-      container.querySelector('.rc-textarea-suffix')?.textContent,
-    ).toEqual('1');
+    expect(container.querySelector('.rc-textarea-suffix')?.textContent).toEqual(
+      '1',
+    );
   });
 
   it('exceed style', () => {
@@ -44,9 +44,9 @@ describe('TextArea.Count', () => {
         maxLength={5}
       />,
     );
-    expect(
-      container.querySelector('.rc-textarea-suffix')?.textContent,
-    ).toEqual('👨‍👩‍👧‍👦_11_5');
+    expect(container.querySelector('.rc-textarea-suffix')?.textContent).toEqual(
+      '👨‍👩‍👧‍👦_11_5',
+    );
   });
 
   it('exceedFormatter', () => {
@@ -138,5 +138,13 @@ describe('TextArea.Count', () => {
 
       expect(container.querySelector('.rc-textarea-out-of-range')).toBeTruthy();
     });
+  });
+
+  it('native maxLength', () => {
+    const { container } = render(<TextArea maxLength={33} />);
+
+    expect(
+      container.querySelector('textarea')?.getAttribute('maxlength'),
+    ).toEqual('33');
   });
 });

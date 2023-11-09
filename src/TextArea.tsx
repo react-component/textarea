@@ -235,6 +235,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         inputElement={
           <ResizableTextArea
             {...rest}
+            maxLength={maxLength}
             onKeyDown={handleKeyDown}
             onChange={onInternalChange}
             onFocus={handleFocus}
