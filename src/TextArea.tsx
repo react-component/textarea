@@ -206,7 +206,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
 
     const isPureTextArea = !rest.autoSize && !showCount && !allowClear;
 
-    const textarea = (
+    return (
       <BaseInput
         value={formatValue}
         allowClear={allowClear}
@@ -251,8 +251,6 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         />
       </BaseInput>
     );
-
-    return textarea;
   },
 );
 
