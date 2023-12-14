@@ -7,7 +7,7 @@ exports[`TextArea classNames and styles should work 1`] = `
     style="color: red; background: red;"
   />
   <span
-    class="rc-textarea-affix-wrapper custom-class rc-textarea-show-count"
+    class="rc-textarea-affix-wrapper rc-textarea-show-count custom-class"
     data-count="0"
     style="background: red;"
   >

@@ -206,14 +206,14 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
 
     const isPureTextArea = !rest.autoSize && !showCount && !allowClear;
 
-    const textarea = (
+    return (
       <BaseInput
         value={formatValue}
         allowClear={allowClear}
         handleReset={handleReset}
         suffix={suffixNode}
         prefixCls={prefixCls}
-        classes={{
+        classNames={{
           affixWrapper: clsx(classes?.affixWrapper, {
             [`${prefixCls}-show-count`]: showCount,
             [`${prefixCls}-textarea-allow-clear`]: allowClear,
@@ -232,28 +232,25 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
           },
         }}
         hidden={hidden}
-        inputElement={
-          <ResizableTextArea
-            {...rest}
-            maxLength={maxLength}
-            onKeyDown={handleKeyDown}
-            onChange={onInternalChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onCompositionStart={onInternalCompositionStart}
-            onCompositionEnd={onInternalCompositionEnd}
-            className={clsx(classNames?.textarea)}
-            style={{ ...styles?.textarea, resize: style?.resize }}
-            disabled={disabled}
-            prefixCls={prefixCls}
-            onResize={handleResize}
-            ref={resizableTextAreaRef}
-          />
-        }
-      />
+      >
+        <ResizableTextArea
+          {...rest}
+          maxLength={maxLength}
+          onKeyDown={handleKeyDown}
+          onChange={onInternalChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onCompositionStart={onInternalCompositionStart}
+          onCompositionEnd={onInternalCompositionEnd}
+          className={clsx(classNames?.textarea)}
+          style={{ ...styles?.textarea, resize: style?.resize }}
+          disabled={disabled}
+          prefixCls={prefixCls}
+          onResize={handleResize}
+          ref={resizableTextAreaRef}
+        />
+      </BaseInput>
     );
-
-    return textarea;
   },
 );
 
