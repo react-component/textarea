@@ -26,7 +26,6 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       onCompositionEnd,
       suffix,
       prefixCls = 'rc-textarea',
-      classes,
       showCount,
       count,
       className,
@@ -214,7 +213,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         suffix={suffixNode}
         prefixCls={prefixCls}
         classNames={{
-          affixWrapper: clsx(classes?.affixWrapper, {
+          affixWrapper: clsx(classNames?.affixWrapper, {
             [`${prefixCls}-show-count`]: showCount,
             [`${prefixCls}-textarea-allow-clear`]: allowClear,
           }),
