@@ -23,13 +23,10 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value'> & {
   autoSize?: boolean | AutoSizeType;
   onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
   onResize?: (size: { width: number; height: number }) => void;
-  classes?: {
-    countWrapper?: string;
-    affixWrapper?: string;
-  };
   classNames?: {
     textarea?: string;
     count?: string;
+    affixWrapper?: string;
   };
   styles?: {
     textarea?: CSSProperties;
