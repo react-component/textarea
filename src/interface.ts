@@ -1,4 +1,8 @@
-import type { BaseInputProps, InputProps } from 'rc-input/lib/interface';
+import type {
+  BaseInputProps,
+  CommonInputProps,
+  InputProps,
+} from 'rc-input/lib/interface';
 import type React from 'react';
 import type { CSSProperties } from 'react';
 
@@ -23,10 +27,9 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value'> & {
   autoSize?: boolean | AutoSizeType;
   onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
   onResize?: (size: { width: number; height: number }) => void;
-  classNames?: {
+  classNames?: CommonInputProps['classNames'] & {
     textarea?: string;
     count?: string;
-    affixWrapper?: string;
   };
   styles?: {
     textarea?: CSSProperties;
