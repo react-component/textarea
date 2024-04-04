@@ -104,6 +104,15 @@ describe('should support allowClear', () => {
       container.querySelector('.rc-textarea-clear-icon-hidden'),
     ).toBeTruthy();
   });
+
+  it('should not support allowClear when it is readOnly', () => {
+    const { container } = render(
+      <TextArea allowClear defaultValue="111" readOnly />,
+    );
+    expect(
+      container.querySelector('.rc-textarea-clear-icon-hidden'),
+    ).toBeTruthy();
+  });
 });
 
 it('should show clear className', () => {
