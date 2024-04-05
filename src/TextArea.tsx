@@ -35,6 +35,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       classNames,
       styles,
       onResize,
+      readOnly,
       ...rest
     },
     ref,
@@ -232,6 +233,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
           },
         }}
         hidden={hidden}
+        readOnly={readOnly}
       >
         <ResizableTextArea
           {...rest}
@@ -248,6 +250,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
           prefixCls={prefixCls}
           onResize={handleResize}
           ref={resizableTextAreaRef}
+          readOnly={readOnly}
         />
       </BaseInput>
     );
