@@ -1,5 +1,6 @@
 import clsx from 'classnames';
 import { BaseInput } from 'rc-input';
+import { type HolderRef } from 'rc-input/lib/BaseInput';
 import useCount from 'rc-input/lib/hooks/useCount';
 import { resolveOnChange } from 'rc-input/lib/utils/commonUtils';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
@@ -54,6 +55,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     const [textareaResized, setTextareaResized] = React.useState<boolean>(null);
 
     // =============================== Ref ================================
+    const holderRef = useRef<HolderRef>(null);
     const resizableTextAreaRef = useRef<ResizableTextAreaRef>(null);
     const getTextArea = () => resizableTextAreaRef.current?.textArea;
 
@@ -67,6 +69,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       blur: () => {
         getTextArea().blur();
       },
+      nativeElement: holderRef.current?.nativeElement || getTextArea(),
     }));
 
     useEffect(() => {
@@ -208,6 +211,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
 
     return (
       <BaseInput
+        ref={holderRef}
         value={formatValue}
         allowClear={allowClear}
         handleReset={handleReset}

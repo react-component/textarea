@@ -42,4 +42,5 @@ export type TextAreaRef = {
   resizableTextArea: ResizableTextAreaRef;
   focus: () => void;
   blur: () => void;
+  nativeElement: HTMLElement;
 };

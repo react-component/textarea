@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
-import type { TextAreaProps } from '../src';
+import type { TextAreaProps, TextAreaRef } from '../src';
 import TextArea from '../src';
 import calculateAutoSizeStyle, {
   calculateNodeStyling,
@@ -351,5 +351,33 @@ describe('TextArea', () => {
   it('support bigint type', () => {
     const { container } = render(<TextArea value={BigInt('903')} autoSize />);
     expect(container.querySelector('textarea').value).toBe('903');
+  });
+
+  describe('ref.nativeElement', () => {
+    it('textarea', () => {
+      const ref = React.createRef<TextAreaRef>();
+      const { container } = render(
+        <div>
+          <TextArea ref={ref} />
+        </div>,
+      );
+
+      expect(ref.current.nativeElement).toEqual(
+        container.querySelector('textarea'),
+      );
+    });
+
+    it('holder', () => {
+      const ref = React.createRef<TextAreaRef>();
+      const { container } = render(
+        <div>
+          <TextArea ref={ref} allowClear />
+        </div>,
+      );
+
+      expect(ref.current.nativeElement).toEqual(
+        container.querySelector('.rc-textarea-affix-wrapper'),
+      );
+    });
   });
 });
