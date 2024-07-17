@@ -36,7 +36,7 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value'> & {
     count?: CSSProperties;
   };
 } & Pick<BaseInputProps, 'allowClear' | 'suffix'> &
-  Pick<InputProps, 'showCount' | 'count'>;
+  Pick<InputProps, 'showCount' | 'count' | 'onClear'>;
 
 export type TextAreaRef = {
   resizableTextArea: ResizableTextAreaRef;

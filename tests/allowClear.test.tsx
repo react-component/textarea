@@ -128,3 +128,14 @@ it('should not textarea clear className', () => {
     container.querySelector('.rc-textarea-textarea-allow-clear'),
   ).toBeFalsy();
 });
+
+it('support onClear', () => {
+  const onClear = jest.fn();
+  const { container } = render(
+    <TextArea onClear={onClear} defaultValue="test" allowClear />,
+  );
+  fireEvent.click(
+    container.querySelector<HTMLSpanElement>('.rc-textarea-clear-icon')!,
+  );
+  expect(onClear).toHaveBeenCalled();
+});

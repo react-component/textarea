@@ -16,7 +16,6 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
   (props, ref) => {
     const {
       prefixCls,
-      onPressEnter,
       defaultValue,
       value,
       autoSize,
