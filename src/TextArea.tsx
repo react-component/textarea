@@ -37,6 +37,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       styles,
       onResize,
       onClear,
+      onPressEnter,
       readOnly,
       ...rest
     },
@@ -151,7 +152,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      const { onPressEnter, onKeyDown } = rest;
+      const { onKeyDown } = rest;
       if (e.key === 'Enter' && onPressEnter) {
         onPressEnter(e);
       }
