@@ -101,6 +101,10 @@ export default function calculateAutoSizeStyle(
     hiddenTextarea = document.createElement('textarea');
     hiddenTextarea.setAttribute('tab-index', '-1');
     hiddenTextarea.setAttribute('aria-hidden', 'true');
+    // fix: A form field element should have an id or name attribute
+    // A form field element has neither an id nor a name attribute. This might prevent the browser from correctly autofilling the form.
+    // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea
+    hiddenTextarea.setAttribute('name', 'hiddenTextarea');
     document.body.appendChild(hiddenTextarea);
   }
 
