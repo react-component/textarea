@@ -12,7 +12,9 @@ const RESIZE_START = 0;
 const RESIZE_MEASURING = 1;
 const RESIZE_STABLE = 2;
 
-const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
+type ResizableProp = Omit<TextAreaProps, 'onPressEnter'>;
+
+const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, ResizableProp>(
   (props, ref) => {
     const {
       prefixCls,
