@@ -160,7 +160,7 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
     // =============================== Render ===============================
     const mergedAutoSizeStyle = needAutoSize ? autoSizeStyle : null;
 
-    const mergedStyle = {
+    const mergedStyle: React.CSSProperties = {
       ...style,
       ...mergedAutoSizeStyle,
     };
