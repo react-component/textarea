@@ -39,6 +39,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       onClear,
       onPressEnter,
       readOnly,
+      autoSize,
+      onKeyDown,
       ...rest
     },
     ref,
@@ -152,7 +154,6 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      const { onKeyDown } = rest;
       if (e.key === 'Enter' && onPressEnter) {
         onPressEnter(e);
       }
@@ -209,7 +210,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       }
     };
 
-    const isPureTextArea = !rest.autoSize && !showCount && !allowClear;
+    const isPureTextArea = !autoSize && !showCount && !allowClear;
 
     return (
       <BaseInput
@@ -244,6 +245,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       >
         <ResizableTextArea
           {...rest}
+          autoSize={autoSize}
           maxLength={maxLength}
           onKeyDown={handleKeyDown}
           onChange={onInternalChange}
