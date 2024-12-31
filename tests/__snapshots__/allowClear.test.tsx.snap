@@ -10,13 +10,12 @@ exports[`should support allowClear should not show icon if defaultValue is undef
   <span
     class="rc-textarea-suffix"
   >
-    <span
+    <button
       class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
-      role="button"
-      tabindex="-1"
+      type="button"
     >
       ✖
-    </span>
+    </button>
   </span>
 </span>
 `;
@@ -31,13 +30,12 @@ exports[`should support allowClear should not show icon if defaultValue is undef
   <span
     class="rc-textarea-suffix"
   >
-    <span
+    <button
       class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
-      role="button"
-      tabindex="-1"
+      type="button"
     >
       ✖
-    </span>
+    </button>
   </span>
 </span>
 `;
@@ -52,13 +50,12 @@ exports[`should support allowClear should not show icon if defaultValue is undef
   <span
     class="rc-textarea-suffix"
   >
-    <span
+    <button
       class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
-      role="button"
-      tabindex="-1"
+      type="button"
     >
       ✖
-    </span>
+    </button>
   </span>
 </span>
 `;
@@ -73,13 +70,12 @@ exports[`should support allowClear should not show icon if value is undefined, n
   <span
     class="rc-textarea-suffix"
   >
-    <span
+    <button
       class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
-      role="button"
-      tabindex="-1"
+      type="button"
     >
       ✖
-    </span>
+    </button>
   </span>
 </span>
 `;
@@ -94,13 +90,12 @@ exports[`should support allowClear should not show icon if value is undefined, n
   <span
     class="rc-textarea-suffix"
   >
-    <span
+    <button
       class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
-      role="button"
-      tabindex="-1"
+      type="button"
     >
       ✖
-    </span>
+    </button>
   </span>
 </span>
 `;
@@ -115,13 +110,12 @@ exports[`should support allowClear should not show icon if value is undefined, n
   <span
     class="rc-textarea-suffix"
   >
-    <span
+    <button
       class="rc-textarea-clear-icon rc-textarea-clear-icon-hidden"
-      role="button"
-      tabindex="-1"
+      type="button"
     >
       ✖
-    </span>
+    </button>
   </span>
 </span>
 `;
