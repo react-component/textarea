@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import Textarea from 'rc-textarea';
+import Textarea from '@rc-component/textarea';
 import React, { useState } from 'react';
 import '../../assets/index.less';
 

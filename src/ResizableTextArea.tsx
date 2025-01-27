@@ -1,8 +1,8 @@
 import classNames from 'classnames';
-import ResizeObserver from 'rc-resize-observer';
-import useLayoutEffect from 'rc-util/lib/hooks/useLayoutEffect';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import raf from 'rc-util/lib/raf';
+import ResizeObserver from '@rc-component/resize-observer';
+import useLayoutEffect from '@rc-component/util/lib/hooks/useLayoutEffect';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
+import raf from '@rc-component/util/lib/raf';
 import * as React from 'react';
 import type { TextAreaProps } from '.';
 import calculateAutoSizeStyle from './calculateNodeHeight';
