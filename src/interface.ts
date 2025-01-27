@@ -2,7 +2,7 @@ import type {
   BaseInputProps,
   CommonInputProps,
   InputProps,
-} from 'rc-input/lib/interface';
+} from '@rc-component/input/lib/interface';
 import type React from 'react';
 import type { CSSProperties } from 'react';
 

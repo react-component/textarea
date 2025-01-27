@@ -2,7 +2,7 @@ import { act } from '@testing-library/react';
 import {
   _rs as onEsResize,
   _rs as onLibResize,
-} from 'rc-resize-observer/lib/utils/observerUtil';
+} from '@rc-component/resize-observer/lib/utils/observerUtil';
 
 export function triggerResize(
   target,

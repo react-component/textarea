@@ -10,7 +10,7 @@
     "paths": {
       "@/*": ["src/*"],
       "@@/*": [".dumi/tmp/*"],
-      "rc-textarea": ["src/index.tsx"]
+      "@rc-component/textarea": ["src/index.tsx"]
     }
   }
 }

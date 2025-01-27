@@ -1,9 +1,9 @@
 import clsx from 'classnames';
-import { BaseInput } from 'rc-input';
-import { type HolderRef } from 'rc-input/lib/BaseInput';
-import useCount from 'rc-input/lib/hooks/useCount';
-import { resolveOnChange } from 'rc-input/lib/utils/commonUtils';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import { BaseInput } from '@rc-component/input';
+import { type HolderRef } from '@rc-component/input/lib/BaseInput';
+import useCount from '@rc-component/input/lib/hooks/useCount';
+import { resolveOnChange } from '@rc-component/input/lib/utils/commonUtils';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import type { ReactNode } from 'react';
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import ResizableTextArea from './ResizableTextArea';

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
-import Textarea from 'rc-textarea';
+import Textarea from '@rc-component/textarea';
 
 export default function App() {
   const [value, setValue] = useState('hello\nworld');

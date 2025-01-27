@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
-import type { TextAreaProps } from 'rc-textarea';
-import Textarea from 'rc-textarea';
+import type { TextAreaProps } from '@rc-component/textarea';
+import Textarea from '@rc-component/textarea';
 
 export default function App() {
   const [value, setValue] = useState('');
