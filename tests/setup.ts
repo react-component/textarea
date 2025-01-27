@@ -4,5 +4,3 @@ global.ResizeObserver = class ResizeObserver {
   unobserve() {}
   disconnect() {}
 };
-
-process.exit(0);
