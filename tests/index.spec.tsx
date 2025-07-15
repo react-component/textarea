@@ -381,3 +381,45 @@ describe('TextArea', () => {
     });
   });
 });
+
+describe.only('TextArea IME behavior', () => {
+  it('should ignore Enter during composition', () => {
+    const onPressEnter = jest.fn();
+    const { container } = render(<TextArea onPressEnter={onPressEnter} />);
+    const textarea = container.querySelector('textarea')!;
+
+    fireEvent.compositionStart(textarea);
+
+    fireEvent.keyDown(textarea, {
+      key: 'Enter',
+      keyCode: 229,
+      isComposing: true,
+      nativeEvent: { isComposing: true },
+    });
+
+    fireEvent.compositionUpdate(textarea, { data: '开始' });
+
+    expect(onPressEnter).not.toHaveBeenCalled();
+
+    fireEvent.compositionEnd(textarea);
+    fireEvent.keyDown(textarea, {
+      key: 'Enter',
+      nativeEvent: { isComposing: false },
+    });
+    expect(onPressEnter).toHaveBeenCalledTimes(1);
+  });
+
+  it('should trigger Enter for non-composition (normal) input', () => {
+    const onPressEnter = jest.fn();
+    const { container } = render(<TextArea onPressEnter={onPressEnter} />);
+    const textarea = container.querySelector('textarea')!;
+
+    fireEvent.change(textarea, { target: { value: 'test' } });
+
+    fireEvent.keyDown(textarea, {
+      key: 'Enter',
+    });
+    expect(onPressEnter).toHaveBeenCalledTimes(1);
+    expect(textarea.value).toBe('test');
+  });
+});
