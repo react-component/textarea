@@ -382,7 +382,7 @@ describe('TextArea', () => {
   });
 });
 
-describe.only('TextArea IME behavior', () => {
+describe('TextArea IME behavior', () => {
   it('should ignore Enter during composition', () => {
     const onPressEnter = jest.fn();
     const { container } = render(<TextArea onPressEnter={onPressEnter} />);
