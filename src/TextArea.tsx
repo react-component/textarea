@@ -154,7 +154,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      if (e.key === 'Enter' && onPressEnter) {
+      if (e.key === 'Enter' && onPressEnter && !e.nativeEvent.isComposing) {
         onPressEnter(e);
       }
       onKeyDown?.(e);
