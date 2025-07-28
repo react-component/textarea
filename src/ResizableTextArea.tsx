@@ -66,9 +66,10 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
     // https://github.com/ant-design/ant-design/issues/21870
     const fixFirefoxAutoScroll = () => {
       try {
+        const isFirefox = navigator.userAgent.includes('Firefox');
         // FF has bug with jump of scroll to top. We force back here.
-        if (document.activeElement === textareaRef.current) {
-          const { selectionStart, selectionEnd, scrollTop } =
+        if (isFirefox && document.activeElement === textareaRef.current) {
+          const { scrollTop, selectionStart, selectionEnd } =
             textareaRef.current;
 
           // Fix Safari bug which not rollback when break line
