@@ -37,6 +37,42 @@ describe('TextArea', () => {
     jest.useRealTimers();
   });
 
+  it('paste text should change cursor position', async () => {
+    const { container } = render(
+      <TextArea autoSize={{ minRows: 2, maxRows: 6 }} />,
+    );
+    const textArea = container.querySelector('textarea') as HTMLTextAreaElement;
+    // 监听事件绑定和移除
+    const pasteData = 'pasted text\n'.repeat(10);
+    const clipboardData = {
+      getData: jest.fn().mockReturnValue(pasteData),
+    };
+
+    const pasteEvent = async () => {
+      fireEvent.focus(textArea);
+
+      fireEvent.paste(textArea, {
+        clipboardData,
+        types: ['text/plain'],
+        items: [],
+      });
+
+      fireEvent.change(textArea, { target: { value: pasteData } });
+      textArea.setSelectionRange(pasteData.length, pasteData.length);
+
+      await wait();
+      expect(textArea.selectionStart).toBe(pasteData.length);
+      expect(textArea.selectionEnd).toBe(pasteData.length);
+      fireEvent.change(textArea, { target: { value: '' } });
+      await wait();
+      expect(textArea.selectionStart).toBe(0);
+      expect(textArea.selectionEnd).toBe(0);
+    };
+
+    await pasteEvent();
+    await pasteEvent();
+  });
+
   it('should work correctly on controlled mode', () => {
     const Demo = () => {
       const [value, setValue] = React.useState('111');
@@ -235,10 +271,12 @@ describe('TextArea', () => {
     container.querySelector('textarea').focus();
     expect(document.activeElement).toBe(container.querySelector('textarea'));
 
-    const setSelectionRangeFn = jest.spyOn(
-      container.querySelector('textarea'),
-      'setSelectionRange',
-    );
+    // https://github.com/ant-design/ant-design/issues/54444
+    // Other browsers may have cursor position issues when calling setSelectionRange, so we do not call it here.
+    // const setSelectionRangeFn = jest.spyOn(
+    //   container.querySelector('textarea'),
+    //   'setSelectionRange',
+    // );
 
     fireEvent.change(container.querySelector('textarea'), {
       target: { value: '\n1' },
@@ -246,7 +284,10 @@ describe('TextArea', () => {
 
     await wait();
 
-    expect(setSelectionRangeFn).toHaveBeenCalled();
+    // expect(setSelectionRangeFn).toHaveBeenCalled();
+    expect(container.querySelector('textarea').scrollTop).toBe(
+      container.querySelector('textarea').scrollHeight,
+    );
     unmount();
   });
 
