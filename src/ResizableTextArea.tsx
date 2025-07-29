@@ -8,9 +8,14 @@ import type { TextAreaProps } from '.';
 import calculateAutoSizeStyle from './calculateNodeHeight';
 import type { ResizableTextAreaRef } from './interface';
 
-const RESIZE_START = 0;
-const RESIZE_MEASURING = 1;
-const RESIZE_STABLE = 2;
+const RESIZE_START = 0 as const;
+const RESIZE_MEASURING = 1 as const;
+const RESIZE_STABLE = 2 as const;
+
+type ResizeState =
+  | typeof RESIZE_START
+  | typeof RESIZE_MEASURING
+  | typeof RESIZE_STABLE;
 
 const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
   (props, ref) => {
@@ -62,34 +67,9 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
 
     const needAutoSize = !!autoSize;
 
-    // =============================== Scroll ===============================
-    // https://github.com/ant-design/ant-design/issues/21870
-    const fixFirefoxAutoScroll = () => {
-      try {
-        const isFirefox = navigator.userAgent.includes('Firefox');
-        // FF has bug with jump of scroll to top. We force back here.
-        if (isFirefox && document.activeElement === textareaRef.current) {
-          const { scrollTop, selectionStart, selectionEnd } =
-            textareaRef.current;
-
-          // Fix Safari bug which not rollback when break line
-          // This makes Chinese IME can't input. Do not fix this
-          // const { value: tmpValue } = textareaRef.current;
-          // textareaRef.current.value = '';
-          // textareaRef.current.value = tmpValue;
-
-          textareaRef.current.setSelectionRange(selectionStart, selectionEnd);
-          textareaRef.current.scrollTop = scrollTop;
-        }
-      } catch (e) {
-        // Fix error in Chrome:
-        // Failed to read the 'selectionStart' property from 'HTMLInputElement'
-        // http://stackoverflow.com/q/21177489/3040605
-      }
-    };
-
     // =============================== Resize ===============================
-    const [resizeState, setResizeState] = React.useState(RESIZE_STABLE);
+    const [resizeState, setResizeState] =
+      React.useState<ResizeState>(RESIZE_STABLE);
     const [autoSizeStyle, setAutoSizeStyle] =
       React.useState<React.CSSProperties>();
 
@@ -133,7 +113,8 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
         setResizeState(RESIZE_STABLE);
         setAutoSizeStyle(textareaStyles);
       } else {
-        fixFirefoxAutoScroll();
+        // https://github.com/react-component/textarea/pull/23
+        // Firefox has blink issue before but fixed in latest version.
       }
     }, [resizeState]);
 
