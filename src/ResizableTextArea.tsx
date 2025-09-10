@@ -32,10 +32,11 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
     };
 
     // =============================== Value ================================
-    const [mergedValue, setMergedValue] = useControlledState(
-      defaultValue || '',
-      value || '',
+    const [internalValue, setMergedValue] = useControlledState(
+      defaultValue,
+      value,
     );
+    const mergedValue = internalValue ?? '';
 
     const onInternalChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
       event,
