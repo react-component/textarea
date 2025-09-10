@@ -1,9 +1,9 @@
-import clsx from 'classnames';
 import { BaseInput } from '@rc-component/input';
 import { type HolderRef } from '@rc-component/input/lib/BaseInput';
 import useCount from '@rc-component/input/lib/hooks/useCount';
 import { resolveOnChange } from '@rc-component/input/lib/utils/commonUtils';
-import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
+import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
+import clsx from 'classnames';
 import type { ReactNode } from 'react';
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import ResizableTextArea from './ResizableTextArea';
@@ -45,10 +45,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     },
     ref,
   ) => {
-    const [value, setValue] = useMergedState(defaultValue, {
-      value: customValue,
-      defaultValue,
-    });
+    const [value, setValue] = useControlledState(defaultValue, customValue);
     const formatValue =
       value === undefined || value === null ? '' : String(value);
 

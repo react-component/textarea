@@ -1,6 +1,6 @@
 import ResizeObserver from '@rc-component/resize-observer';
+import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import useLayoutEffect from '@rc-component/util/lib/hooks/useLayoutEffect';
-import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import raf from '@rc-component/util/lib/raf';
 import classNames from 'classnames';
 import * as React from 'react';
@@ -37,10 +37,11 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
     };
 
     // =============================== Value ================================
-    const [mergedValue, setMergedValue] = useMergedState(defaultValue, {
+    const [internalValue, setMergedValue] = useControlledState(
+      defaultValue,
       value,
-      postState: (val) => val ?? '',
-    });
+    );
+    const mergedValue = internalValue ?? '';
 
     const onInternalChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
       event,
