@@ -1,8 +1,8 @@
-import classNames from 'classnames';
 import ResizeObserver from '@rc-component/resize-observer';
+import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import useLayoutEffect from '@rc-component/util/lib/hooks/useLayoutEffect';
-import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
 import raf from '@rc-component/util/lib/raf';
+import classNames from 'classnames';
 import * as React from 'react';
 import type { TextAreaProps } from '.';
 import calculateAutoSizeStyle from './calculateNodeHeight';
@@ -32,10 +32,10 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
     };
 
     // =============================== Value ================================
-    const [mergedValue, setMergedValue] = useMergedState(defaultValue, {
-      value,
-      postState: (val) => val ?? '',
-    });
+    const [mergedValue, setMergedValue] = useControlledState(
+      defaultValue || '',
+      value || '',
+    );
 
     const onInternalChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
       event,
