@@ -45,11 +45,11 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
     },
     ref,
   ) => {
-    const [internelValue, setValue] = useControlledState(
+    const [internalValue, setValue] = useControlledState(
       defaultValue,
       customValue,
     );
-    const value = internelValue || '';
+    const value = internalValue || '';
     const formatValue =
       value === undefined || value === null ? '' : String(value);
 
