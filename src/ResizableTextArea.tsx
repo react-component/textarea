@@ -2,7 +2,7 @@ import ResizeObserver from '@rc-component/resize-observer';
 import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import useLayoutEffect from '@rc-component/util/lib/hooks/useLayoutEffect';
 import raf from '@rc-component/util/lib/raf';
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import * as React from 'react';
 import type { TextAreaProps } from '.';
 import calculateAutoSizeStyle from './calculateNodeHeight';
@@ -162,7 +162,7 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
           {...restProps}
           ref={textareaRef}
           style={mergedStyle}
-          className={classNames(prefixCls, className, {
+          className={clsx(prefixCls, className, {
             [`${prefixCls}-disabled`]: disabled,
           })}
           disabled={disabled}
