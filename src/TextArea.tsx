@@ -3,7 +3,7 @@ import { type HolderRef } from '@rc-component/input/lib/BaseInput';
 import useCount from '@rc-component/input/lib/hooks/useCount';
 import { resolveOnChange } from '@rc-component/input/lib/utils/commonUtils';
 import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
-import clsx from 'classnames';
+import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import ResizableTextArea from './ResizableTextArea';
