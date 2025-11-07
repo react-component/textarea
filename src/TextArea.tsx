@@ -6,12 +6,13 @@ import useControlledState from '@rc-component/util/lib/hooks/useControlledState'
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
-import ResizableTextArea from './ResizableTextArea';
 import type {
+  ChangeEventInfo,
   ResizableTextAreaRef,
   TextAreaProps,
   TextAreaRef,
 } from './interface';
+import ResizableTextArea from './ResizableTextArea';
 
 const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
   (
@@ -105,6 +106,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
         | React.ChangeEvent<HTMLTextAreaElement>
         | React.CompositionEvent<HTMLTextAreaElement>,
       currentValue: string,
+      info: ChangeEventInfo,
     ) => {
       let cutValue = currentValue;
 
@@ -124,6 +126,8 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             getTextArea().selectionEnd || 0,
           ]);
         }
+      } else if (info.source === 'compositionEnd') {
+        return;
       }
       setValue(cutValue);
 
@@ -142,12 +146,12 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
       HTMLTextAreaElement
     > = (e) => {
       compositionRef.current = false;
-      triggerChange(e, e.currentTarget.value);
+      triggerChange(e, e.currentTarget.value, { source: 'compositionEnd' });
       onCompositionEnd?.(e);
     };
 
     const onInternalChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      triggerChange(e, e.target.value);
+      triggerChange(e, e.target.value, { source: 'change' });
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
