@@ -97,7 +97,7 @@ describe('TextArea', () => {
   });
 
   it('should auto calculate height according to content length and autoSize property', async () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
     const onInternalAutoSize = jest.fn();
 
     const renderDemo = (
@@ -420,6 +420,36 @@ describe('TextArea', () => {
         container.querySelector('.rc-textarea-affix-wrapper'),
       );
     });
+  });
+});
+
+describe('Hidden Textarea Accessibility', () => {
+  it('should have tabindex="-1" to prevent keyboard focus', () => {
+    // Create a textarea to trigger hidden textarea creation
+    const wrapper = document.createElement('textarea');
+    calculateAutoSizeStyle(wrapper);
+
+    // Find the hidden textarea used for height measurement
+    const hiddenTextarea = document.querySelector(
+      'textarea[name="hiddenTextarea"]',
+    );
+
+    expect(hiddenTextarea).toBeInTheDocument();
+    // Verify correct tabindex attribute (without hyphen)
+    expect(hiddenTextarea).toHaveAttribute('tabindex', '-1');
+    // Ensure the invalid "tab-index" attribute is NOT present
+    expect(hiddenTextarea).not.toHaveAttribute('tab-index');
+  });
+
+  it('should have aria-hidden="true" for screen readers', () => {
+    const wrapper = document.createElement('textarea');
+    calculateAutoSizeStyle(wrapper);
+
+    const hiddenTextarea = document.querySelector(
+      'textarea[name="hiddenTextarea"]',
+    );
+
+    expect(hiddenTextarea).toHaveAttribute('aria-hidden', 'true');
   });
 });
 
