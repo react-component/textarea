@@ -44,3 +44,7 @@ export type TextAreaRef = {
   blur: () => void;
   nativeElement: HTMLElement;
 };
+
+export interface ChangeEventInfo {
+  source: 'compositionEnd' | 'change';
+}
