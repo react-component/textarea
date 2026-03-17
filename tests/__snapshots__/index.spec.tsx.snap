@@ -2,10 +2,38 @@
 
 exports[`TextArea classNames and styles should work 1`] = `
 <div>
-  <textarea
-    class="rc-textarea custom-textarea custom-class"
-    style="color: red; background: red;"
-  />
+  <span
+    class="rc-textarea-affix-wrapper rc-textarea-affix-wrapper-input-with-clear-btn rc-textarea-show-count rc-textarea-textarea-allow-clear custom-class"
+    data-count="3"
+    style="background: red;"
+  >
+    <textarea
+      class="rc-textarea custom-textarea"
+      style="color: red;"
+    >
+      123
+    </textarea>
+    <span
+      class="rc-textarea-suffix custom-suffix"
+      style="color: yellow;"
+    >
+      <button
+        class="rc-textarea-clear-icon rc-textarea-clear-icon-has-suffix custom-clear"
+        style="color: orange;"
+        tabindex="-1"
+        type="button"
+      >
+        ✖
+      </button>
+      suffix
+      <span
+        class="rc-textarea-data-count custom-count"
+        style="color: blue;"
+      >
+        3
+      </span>
+    </span>
+  </span>
   <span
     class="rc-textarea-affix-wrapper rc-textarea-show-count custom-class"
     data-count="0"

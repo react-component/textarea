@@ -31,7 +31,7 @@ export type TextAreaProps = Omit<HTMLTextareaProps, 'onResize' | 'value'> & {
     textarea?: string;
     count?: string;
   };
-  styles?: {
+  styles?: CommonInputProps['styles'] & {
     textarea?: CSSProperties;
     count?: CSSProperties;
   };

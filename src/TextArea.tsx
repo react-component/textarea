@@ -236,6 +236,7 @@ const TextArea = React.forwardRef<TextAreaRef, TextAreaProps>(
             'data-count': typeof dataCount === 'string' ? dataCount : undefined,
           },
         }}
+        styles={styles}
         hidden={hidden}
         readOnly={readOnly}
         onClear={onClear}

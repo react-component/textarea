@@ -315,15 +315,27 @@ describe('TextArea', () => {
     const { container } = render(
       <>
         <TextArea
+          value="123"
+          showCount
+          suffix="suffix"
+          allowClear
           className="custom-class"
           style={{ background: 'red' }}
           classNames={{
             textarea: 'custom-textarea',
+            suffix: 'custom-suffix',
+            clear: 'custom-clear',
             count: 'custom-count',
           }}
           styles={{
             textarea: {
               color: 'red',
+            },
+            suffix: {
+              color: 'yellow',
+            },
+            clear: {
+              color: 'orange',
             },
             count: {
               color: 'blue',
@@ -349,6 +361,12 @@ describe('TextArea', () => {
         />
       </>,
     );
+    expect(container.querySelector('.rc-textarea-clear-icon')).toHaveClass(
+      'custom-clear',
+    );
+    expect(container.querySelector('.rc-textarea-clear-icon')).toHaveStyle({
+      color: 'orange',
+    });
     expect(container).toMatchSnapshot();
   });
 
