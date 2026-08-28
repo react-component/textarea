@@ -86,7 +86,7 @@ const ResizableTextArea = React.forwardRef<ResizableTextAreaRef, TextAreaProps>(
       if (needAutoSize) {
         startResize();
       }
-    }, [value, minRows, maxRows, needAutoSize]);
+    }, [mergedValue, minRows, maxRows, needAutoSize]);
 
     useLayoutEffect(() => {
       if (resizeState === RESIZE_START) {
