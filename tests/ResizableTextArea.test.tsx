@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import type { ResizableTextAreaRef, TextAreaProps } from '../src';
 import { ResizableTextArea } from '../src';
@@ -20,4 +20,21 @@ jest.mock('../src/ResizableTextArea', () => {
 it('should have no onPressEnter prop', () => {
   render(<ResizableTextArea defaultValue="test" />);
   expect(resizableTextAreaProps().onPressEnter).toBeUndefined();
+});
+
+it('should resize when an uncontrolled value changes', () => {
+  const onInternalAutoSize = jest.fn();
+  const props = {
+    autoSize: true,
+    defaultValue: 'test',
+    onInternalAutoSize,
+  } as TextAreaProps & { onInternalAutoSize: VoidFunction };
+  const { container } = render(<ResizableTextArea {...props} />);
+
+  onInternalAutoSize.mockClear();
+  fireEvent.change(container.querySelector('textarea'), {
+    target: { value: 'a longer uncontrolled value' },
+  });
+
+  expect(onInternalAutoSize).toHaveBeenCalledTimes(1);
 });
